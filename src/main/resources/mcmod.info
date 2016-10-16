@@ -1,0 +1,14 @@
+[{
+  "modid": "WitchCraft",
+  "name": "Witch Craft",
+  "description": "",
+  "version": "0.1.0-dev",
+  "mcversion": "1.10.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Entropy Increaser"],
+  "credits": "",
+  "logoFile": "assets/witchcraft/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}]
