@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class WitchCraft {
 	public static final String MODID   = "witchcraft";
 	public static final String NAME    = "WitchCraft";
-	public static final String VERSION = "0.1.0-dev";
+	public static final String VERSION = "1.0.0-dev";
 	public static final String MINECRAFT_VERSION = "1.10.2";
 
 	@Instance(WitchCraft.MODID)
