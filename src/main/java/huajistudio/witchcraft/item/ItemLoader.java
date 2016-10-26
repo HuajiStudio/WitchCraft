@@ -1,38 +1,31 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.WitchCraft;
-import huajistudio.witchcraft.item.wand.GemMaterial;
-import huajistudio.witchcraft.item.wand.ItemWand;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import java.util.ArrayList;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemLoader {
-	public static ArrayList<ItemWand> wands = new ArrayList<ItemWand>();
+	public static Item crystal = new ItemCrystal();
 
-	public ItemLoader(FMLPreInitializationEvent event) {
-		for (Item.ToolMaterial toolMaterial:
-				new Item.ToolMaterial[]{
-						Item.ToolMaterial.WOOD,
-						Item.ToolMaterial.STONE,
-						Item.ToolMaterial.IRON,
-						Item.ToolMaterial.GOLD,
-						Item.ToolMaterial.DIAMOND }) {
-			for (GemMaterial gemMaterial:
-					new GemMaterial[]{
-							GemMaterial.DIAMOND,
-							GemMaterial.EMERALD,
-							GemMaterial.LAPIS }) {
-				ItemWand wand = new ItemWand(gemMaterial, toolMaterial);
-				wands.add(wand);
-				register(wand, wand.getHandleMaterial().name().toLowerCase() + "_" +
-						wand.getGemMaterial().name().toLowerCase() + "_wand");
-			}
-		}
+	public static void registerItems() {
+		registerItem(crystal, "crystal");
 	}
 
-	private static void register(Item item, String name) {
+	@SideOnly(Side.CLIENT)
+	public static void registerRenders() {
+		registerRender(crystal);
+	}
+
+	private static void registerItem(Item item, String name) {
 		item.setRegistryName(WitchCraft.MODID, name);
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static void registerRender(Item item) {
+		String name = item.getRegistryName().toString();
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(name));
 	}
 }

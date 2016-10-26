@@ -1,7 +1,7 @@
 [{
   "modid": "WitchCraft",
   "name": "Witch Craft",
-  "description": "",
+  "description": "Add witchcraft into your Minecraft!",
   "version": "1.0.0-dev",
   "mcversion": "1.10.2",
   "url": "",

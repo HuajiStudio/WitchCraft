@@ -1,5 +1,6 @@
 package huajistudio.witchcraft.entity;
 
+import huajistudio.witchcraft.util.WitchCraftDamageSource;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -32,7 +33,7 @@ public class EntityLightBall extends EntityThrowable {
 		if (worldObj.isRemote)
 			return;
 		if (result.entityHit instanceof EntityLiving) {
-			// TODO get damage
+			result.entityHit.attackEntityFrom(WitchCraftDamageSource.lightBall, 4);
 		} else if (result.entityHit instanceof EntityArrow) {
 			result.entityHit.setDead();
 		} else {}
