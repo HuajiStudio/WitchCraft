@@ -21,6 +21,7 @@ public class ItemLoader {
 
 	private static void registerItem(Item item, String name) {
 		item.setRegistryName(WitchCraft.MODID, name);
+		Item.REGISTRY.register(5000, item.getRegistryName(), item);
 	}
 
 	@SideOnly(Side.CLIENT)
