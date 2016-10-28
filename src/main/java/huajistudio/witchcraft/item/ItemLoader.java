@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,8 +15,8 @@ public class ItemLoader {
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabs.MATERIALS);
 
 	public static void registerItems() {
-		registerItemBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore", 1);
-		registerItem(CRYSTAL, "crystal", 201);
+		registerItemBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore");
+		registerItem(CRYSTAL, "crystal");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -24,15 +25,13 @@ public class ItemLoader {
 		registerRender(CRYSTAL);
 	}
 
-	private static void registerItem(Item item, String name, int id) {
-		item.setRegistryName(name);
-		Item.REGISTRY.register(id, item.getRegistryName(), item);
+	private static void registerItem(Item item, String name) {
+		GameRegistry.register(item.setRegistryName(name));
 	}
 
-	private static void registerItemBlock(Block block, String name, int id) {
-		block.setRegistryName(name);
-		Block.REGISTRY.register(id, block.getRegistryName(), block);
-		registerItem(new ItemBlock(block), name, id);
+	private static void registerItemBlock(Block block, String name) {
+		GameRegistry.register(block.setRegistryName(name));
+		registerItem(new ItemBlock(block), name);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -42,6 +41,9 @@ public class ItemLoader {
 
 	@SideOnly(Side.CLIENT)
 	private static void registerRender(Block block) {
-		ModelLoader.setCustomModelResourceLocation(new ItemBlock(block), 0, new ModelResourceLocation(block.getRegistryName().toString(), "inventory"));
+		Item item = Item.getItemFromBlock(block);
+		if (item != null){
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName().toString(), "inventory"));
+		}
 	}
 }
