@@ -16,5 +16,5 @@ public class BlockLoader {
 		public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 			return ItemLoader.CRYSTAL;
 		}
-	}.setUnlocalizedName("crystal_ore");
+	}.setUnlocalizedName("crystal_ore").setHardness(1.5F);
 }

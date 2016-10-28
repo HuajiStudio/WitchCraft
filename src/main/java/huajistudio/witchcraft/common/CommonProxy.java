@@ -3,6 +3,7 @@ package huajistudio.witchcraft.common;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.item.ItemLoader;
+import huajistudio.witchcraft.worldgen.WorldGeneratorLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -16,6 +17,7 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		new EventHandler();
 		new EnchantmentLoader();
+		WorldGeneratorLoader.registerWorldGenerators();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}
