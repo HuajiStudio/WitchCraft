@@ -1,4 +1,4 @@
-package huajistudio.witchcraft.worldgen;
+package huajistudio.witchcraft.world.gen;
 
 import huajistudio.witchcraft.block.BlockLoader;
 import net.minecraft.block.state.IBlockState;

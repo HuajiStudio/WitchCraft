@@ -13,16 +13,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemLoader {
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabs.MATERIALS);
+	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabs.MATERIALS);
 
 	public static void registerItems() {
 		registerItemBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore");
+		registerItemBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block");
+		registerItemBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block");
+
 		registerItem(CRYSTAL, "crystal");
+		registerItem(MAGIC_CRYSTAL, "magic_crystal");
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
+		registerRender(BlockLoader.CRYSTAL_BLOCK);
+		registerRender(BlockLoader.MAGIC_CRYSTAL_BLOCK);
+
 		registerRender(CRYSTAL);
+		registerRender(MAGIC_CRYSTAL);
 	}
 
 	private static void registerItem(Item item, String name) {

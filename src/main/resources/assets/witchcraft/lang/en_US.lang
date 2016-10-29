@@ -1,3 +1,5 @@
-tile.crystal_ore.name=Crystal Ore
+tile.crystalOre.name=Crystal Ore
+tile.crystalBlock.name=Crystal Block
 
 item.crystal.name=Crystal
+item.magicCrystal.name=Magic Crystal
