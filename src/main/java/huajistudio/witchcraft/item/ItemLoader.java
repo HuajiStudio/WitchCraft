@@ -27,8 +27,6 @@ public class ItemLoader {
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
-
-		// FIXME Those two blocks couldn't be successfully rent!
 		registerRender(BlockLoader.CRYSTAL_BLOCK);
 		registerRender(BlockLoader.MAGIC_CRYSTAL_BLOCK);
 
