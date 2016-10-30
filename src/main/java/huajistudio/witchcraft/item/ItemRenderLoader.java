@@ -1,7 +1,9 @@
 package huajistudio.witchcraft.item;
 
+import huajistudio.witchcraft.WitchCraft;
+
 public class ItemRenderLoader {
 	public ItemRenderLoader() {
-		ItemLoader.registerRenders();
+		WitchCraft.proxy.itemLoader.registerRenders();
 	}
 }

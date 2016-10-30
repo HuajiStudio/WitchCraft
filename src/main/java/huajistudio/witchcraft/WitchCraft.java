@@ -28,14 +28,17 @@ public class WitchCraft {
 	public static CommonProxy proxy;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-	{ proxy.preInit(event); }
+	public void preInit(FMLPreInitializationEvent event) {
+		proxy.preInit(event);
+	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event)
-	{ proxy.init(event); }
+	public void init(FMLInitializationEvent event) {
+		proxy.init(event);
+	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{ proxy.postInit(event); }
+	public void postInit(FMLPostInitializationEvent event) {
+		proxy.postInit(event);
+	}
 }

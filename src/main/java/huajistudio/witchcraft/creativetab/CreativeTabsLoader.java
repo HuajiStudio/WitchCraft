@@ -6,6 +6,5 @@ public class CreativeTabsLoader {
 
 
 	public CreativeTabsLoader(FMLPreInitializationEvent event) {
-
 	}
 }

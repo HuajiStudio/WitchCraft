@@ -24,6 +24,9 @@ version = "1.0.0-dev"
 group= "huajistudio.witchcraft"
 archivesBaseName = "WitchCraft"
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 minecraft {
     version = "1.10.2-12.18.1.2011"
     runDir = "run"

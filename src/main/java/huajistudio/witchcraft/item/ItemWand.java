@@ -9,6 +9,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class ItemWand extends Item {
 	private final int maxUses;
 	private final int enchantability;
@@ -31,10 +34,11 @@ public class ItemWand extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	@Nonnull
+	public ActionResult<ItemStack> onItemRightClick(@Nullable ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (worldIn.isRemote)
-			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+			return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 		worldIn.spawnEntityInWorld(new EntityLightBall(worldIn, playerIn));
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+		return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 	}
 }
