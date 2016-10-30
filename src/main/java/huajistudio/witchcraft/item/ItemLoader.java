@@ -27,6 +27,8 @@ public class ItemLoader {
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
+
+		// FIXME Those two blocks couldn't be successfully rent!
 		registerRender(BlockLoader.CRYSTAL_BLOCK);
 		registerRender(BlockLoader.MAGIC_CRYSTAL_BLOCK);
 
@@ -45,14 +47,16 @@ public class ItemLoader {
 
 	@SideOnly(Side.CLIENT)
 	private static void registerRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName().toString()));
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "normal"));
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void registerRender(Block block) {
+	private static void registerRender(Block block) throws NullPointerException {
 		Item item = Item.getItemFromBlock(block);
 		if (item != null){
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName().toString(), "inventory"));
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+		} else {
+			throw new NullPointerException(block.getUnlocalizedName() + " not found");
 		}
 	}
 }
