@@ -1,17 +1,10 @@
 package huajistudio.witchcraft.util.loader;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
-
-import javax.annotation.Nullable;
-
+import java.lang.reflect.ParameterizedType;
 public interface ILoader<T> {
 	void register();
 
-	@Nullable
-	RegistryNamespaced<ResourceLocation, T> getRegistry();
-
-	default void registerImpl(int id, ResourceLocation key, T value) {
-		getRegistry().register(id, key, value);
+	default Class<T> getLoaderType() {
+		return (Class<T>)(((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
 	}
 }

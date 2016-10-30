@@ -1,3 +1,4 @@
-tile.crystal_ore.name=水晶矿
+tile.crystalOre.name=水晶矿
 
 item.crystal.name=水晶
+item.magicCrystal.name=魔法水晶
