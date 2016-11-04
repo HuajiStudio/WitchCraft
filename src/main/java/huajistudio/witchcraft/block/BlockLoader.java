@@ -53,7 +53,7 @@ public class BlockLoader {
 			.setRegistryName("magic_crystal_block")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
-			.setLightLevel(0.5F)
+			.setLightLevel(2.5F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 
 	@Load(LoaderState.PREINITIALIZATION)

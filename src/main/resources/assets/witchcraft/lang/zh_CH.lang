@@ -1,4 +1,8 @@
 tile.crystalOre.name=水晶矿
+tile.crystalBlock.name=水晶块
+tile.magicCrystalBlock.name=魔法水晶块
 
 item.crystal.name=水晶
 item.magicCrystal.name=魔法水晶
+
+itemGroup.witchCraft=巫术

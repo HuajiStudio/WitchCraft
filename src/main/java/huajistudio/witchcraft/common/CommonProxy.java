@@ -4,6 +4,7 @@ import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.block.MaterialLoader;
 import huajistudio.witchcraft.crafting.CraftingLoader;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
+import huajistudio.witchcraft.entity.EntityLoader;
 import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraftforge.fml.common.LoaderState;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class CommonProxy {
 	public Class[] loaders = new Class[]{MaterialLoader.class, BlockLoader.class, ItemLoader.class,
-			EnchantmentLoader.class, CraftingLoader.class};
+			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class};
 
 	public Collection<Object> loaderObjects = new ArrayList<>();
 
