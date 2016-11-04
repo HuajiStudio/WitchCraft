@@ -1,32 +1,45 @@
 package huajistudio.witchcraft.item;
 
+import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import huajistudio.witchcraft.util.loader.ILoader;
+import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemLoader implements ILoader<Item> {
+import java.lang.reflect.Field;
+
+public class ItemLoader {
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 
-	@Override
-	public void register() {
-		registerItemBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore");
-		registerItemBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block");
-		registerItemBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block");
-
+	public void registerItems() {
 		registerItem(CRYSTAL, "crystal");
 		registerItem(MAGIC_CRYSTAL, "magic_crystal");
 	}
 
+	@Load(LoaderState.PREINITIALIZATION)
+	public void registerItemBlocks() {
+		Class<BlockLoader> blockLoaderClass = BlockLoader.class;
+		for (Field field : blockLoaderClass.getFields()) {
+			try {
+				Block block = (Block) field.get(WitchCraft.proxy.getBlockLoader());
+				GameRegistry.register(new ItemBlock(block));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
+	@Load(LoaderState.POSTINITIALIZATION)
 	public static void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
 		registerRender(BlockLoader.CRYSTAL_BLOCK);

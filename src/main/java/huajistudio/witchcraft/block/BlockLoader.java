@@ -2,7 +2,7 @@ package huajistudio.witchcraft.block;
 
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.item.ItemLoader;
-import huajistudio.witchcraft.util.loader.ILoader;
+import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.material.MapColor;
@@ -12,12 +12,13 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockLoader implements ILoader<Block> {
+public class BlockLoader {
 	public static final Block CRYSTAL_ORE = new BlockOre() {
 		@Nullable
 		@Override
@@ -37,23 +38,26 @@ public class BlockLoader implements ILoader<Block> {
 			return 0;
 		}
 	}.setUnlocalizedName("crystalOre")
+			.setRegistryName("crystal_ore")
 			.setHardness(3.0F)
 			.setResistance(5.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Block CRYSTAL_BLOCK = (new Block(Material.IRON, MapColor.PURPLE))
 			.setUnlocalizedName("crystalBlock")
+			.setRegistryName("crystal_block")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Block MAGIC_CRYSTAL_BLOCK = (new Block(Material.IRON, MapColor.PURPLE))
 			.setUnlocalizedName("magicCrystalBlock")
+			.setRegistryName("magic_crystal_block")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setLightLevel(0.5F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 
-	@Override
-	public void register() {
+	@Load(LoaderState.PREINITIALIZATION)
+	public void registerBlocks() {
 		registerBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore");
 		registerBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block");
 		registerBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block");

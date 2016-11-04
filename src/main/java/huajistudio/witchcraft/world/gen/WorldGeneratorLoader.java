@@ -37,7 +37,7 @@ public class WorldGeneratorLoader {
 		}
 	};
 
-	public static void registerWorldGenerators() {
+	public void registerWorldGenerators() {
 		GameRegistry.registerWorldGenerator(generatorCrystalOre, 1);
 	}
 }

@@ -5,9 +5,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 
 @Mod(modid = WitchCraft.MODID, name = WitchCraft.NAME, version = WitchCraft.VERSION,
 		acceptedMinecraftVersions = WitchCraft.MINECRAFT_VERSION)
@@ -28,6 +26,11 @@ public class WitchCraft {
 	public static CommonProxy proxy;
 
 	@EventHandler
+	public void construction(FMLConstructionEvent event) {
+		proxy.construction(event);
+	}
+
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit(event);
 	}
@@ -40,5 +43,10 @@ public class WitchCraft {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+	}
+
+	@EventHandler
+	public void loadComplete(FMLLoadCompleteEvent event) {
+		proxy.loadComplete(event);
 	}
 }
