@@ -37,6 +37,7 @@ public class WorldGeneratorLoader {
 		}
 	};
 
+	// TODO @Load(LoaderState.PREINITIALIZATION)
 	public void registerWorldGenerators() {
 		GameRegistry.registerWorldGenerator(generatorCrystalOre, 1);
 	}
