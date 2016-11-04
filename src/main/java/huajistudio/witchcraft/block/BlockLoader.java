@@ -49,7 +49,7 @@ public class BlockLoader implements ILoader<Block> {
 			.setUnlocalizedName("magicCrystalBlock")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
-			.setLightLevel(0.5F)
+			.setLightLevel(2.5F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 
 	@Override

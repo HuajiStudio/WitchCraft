@@ -15,6 +15,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemLoader implements ILoader<Item> {
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item WOODEN_WAND = (new ItemWand(Item.ToolMaterial.WOOD)).setUnlocalizedName("wandWood");
+	public static final Item STONE_WAND = (new ItemWand(Item.ToolMaterial.STONE)).setUnlocalizedName("wandStone");
+	public static final Item IRON_WAND = (new ItemWand(Item.ToolMaterial.IRON)).setUnlocalizedName("wandIron");
+	public static final Item DIAMOND_WAND = (new ItemWand(Item.ToolMaterial.DIAMOND)).setUnlocalizedName("wandDiamond");
+	public static final Item GOLDEN_WAND = (new ItemWand(Item.ToolMaterial.GOLD)).setUnlocalizedName("wandGold");
 
 	@Override
 	public void register() {
@@ -24,16 +29,26 @@ public class ItemLoader implements ILoader<Item> {
 
 		registerItem(CRYSTAL, "crystal");
 		registerItem(MAGIC_CRYSTAL, "magic_crystal");
+		registerItem(WOODEN_WAND, "wooden_wand");
+		registerItem(STONE_WAND, "stone_wand");
+		registerItem(IRON_WAND, "iron_wand");
+		registerItem(DIAMOND_WAND, "diamond_wand");
+		registerItem(GOLDEN_WAND, "golden_wand");
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void registerRenders() {
+	public void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
 		registerRender(BlockLoader.CRYSTAL_BLOCK);
 		registerRender(BlockLoader.MAGIC_CRYSTAL_BLOCK);
 
 		registerRender(CRYSTAL);
 		registerRender(MAGIC_CRYSTAL);
+		registerRender(WOODEN_WAND);
+		registerRender(STONE_WAND);
+		registerRender(IRON_WAND);
+		registerRender(DIAMOND_WAND);
+		registerRender(GOLDEN_WAND);
 	}
 
 	private void registerItem(Item item, String name) {

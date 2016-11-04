@@ -4,29 +4,31 @@ import huajistudio.witchcraft.util.WitchCraftDamageSource;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
  * Could be thrown with the magic wand.
  */
-public class EntityLightBall extends EntityThrowable {
+public class EntityLightBall extends EntityFireball {
 	public EntityLightBall(World worldIn) {
 		super(worldIn);
 	}
 
-	public EntityLightBall(World worldIn, EntityLivingBase throwerIn) {
-		super(worldIn, throwerIn);
+	public EntityLightBall(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+		super(worldIn, x, y, z, accelX, accelY, accelZ);
 	}
 
-	public EntityLightBall(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z);
+	public EntityLightBall(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+		super(worldIn, shooter, accelX, accelY, accelZ);
 	}
 
 	@Override
-	protected float getGravityVelocity()
-	{ return 0; }
+	protected EnumParticleTypes getParticleType() {
+		return EnumParticleTypes.SPELL;
+	}
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
@@ -34,9 +36,9 @@ public class EntityLightBall extends EntityThrowable {
 			return;
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WitchCraftDamageSource.lightBall, 4);
-		} else if (result.entityHit instanceof EntityArrow) {
+		} else if (result.entityHit instanceof EntityArrow || result.entityHit instanceof EntityLightBall) {
 			result.entityHit.setDead();
-		} else {}
+		}
 		setDead();
 	}
 }

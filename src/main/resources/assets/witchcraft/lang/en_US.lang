@@ -4,3 +4,5 @@ tile.magicCrystalBlock.name=Magic Crystal Block
 
 item.crystal.name=Crystal
 item.magicCrystal.name=Magic Crystal
+
+itemGroup.witchCraft=Witch Craft
