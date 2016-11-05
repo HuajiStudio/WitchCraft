@@ -14,7 +14,7 @@ public class EntityLoader {
 	@SideOnly(Side.CLIENT)
 	@Load(LoaderState.POSTINITIALIZATION)
 	public void registerRenders() {
-
+		//TODO Implementation
 	}
 
 	@Load(LoaderState.PREINITIALIZATION)
@@ -22,9 +22,9 @@ public class EntityLoader {
 		registerEntity(EntityLightBall.class, "LightBall", 64, 10, false);
 	}
 
-	private void registerEntity(Class<? extends Entity> entityClass, String name,
+	private <T extends Entity> void registerEntity(Class<T> entityClass, String name,
 	                                   int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
-		EntityRegistry.registerModEntity(entityClass, name, nextID++, WitchCraft.instance, trackingRange, updateFrequency,
-				sendsVelocityUpdates);
+		EntityRegistry.registerModEntity(entityClass, name, nextID++, WitchCraft.instance,
+				trackingRange, updateFrequency, sendsVelocityUpdates);
 	}
 }

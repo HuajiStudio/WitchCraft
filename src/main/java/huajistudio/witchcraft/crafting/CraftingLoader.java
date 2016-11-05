@@ -8,6 +8,8 @@ import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CraftingLoader {
+	private static final ItemStack WOODEN_WAND_STACK = new ItemStack(ItemLoader.WOODEN_WAND);
+
 	@Load(LoaderState.AVAILABLE)
 	public void registerCrafting() {
 		GameRegistry.addRecipe(new ItemStack(BlockLoader.CRYSTAL_BLOCK), "XXX", "XXX", "XXX", 'X', ItemLoader.CRYSTAL);

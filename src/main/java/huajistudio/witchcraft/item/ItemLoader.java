@@ -25,6 +25,7 @@ public class ItemLoader {
 	public static final Item DIAMOND_WAND = (new ItemWand(Item.ToolMaterial.DIAMOND)).setUnlocalizedName("wandDiamond");
 	public static final Item GOLDEN_WAND = (new ItemWand(Item.ToolMaterial.GOLD)).setUnlocalizedName("wandGold");
 
+	@Load(LoaderState.PREINITIALIZATION)
 	public void registerItems() {
 		registerItem(CRYSTAL, "crystal");
 		registerItem(MAGIC_CRYSTAL, "magic_crystal");
@@ -35,21 +36,21 @@ public class ItemLoader {
 		registerItem(GOLDEN_WAND, "golden_wand");
 	}
 
-	@Load(LoaderState.PREINITIALIZATION)
+	@Load(LoaderState.INITIALIZATION)
 	public void registerItemBlocks() {
 		Class<BlockLoader> blockLoaderClass = BlockLoader.class;
 		for (Field field : blockLoaderClass.getFields()) {
-			try {
-				Block block = (Block) field.get(WitchCraft.proxy.getBlockLoader());
-				GameRegistry.register(new ItemBlock(block));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			if (field.getDeclaringClass().equals(Block.class))
+				try {
+					Block block = (Block) field.get(WitchCraft.proxy.getBlockLoader());
+					GameRegistry.register(new ItemBlock(block));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	@Load(LoaderState.POSTINITIALIZATION)
 	public void registerRenders() {
 		registerRender(BlockLoader.CRYSTAL_ORE);
 		registerRender(BlockLoader.CRYSTAL_BLOCK);
@@ -68,17 +69,13 @@ public class ItemLoader {
 		GameRegistry.register(item.setRegistryName(name));
 	}
 
-	private void registerItemBlock(Block block, String name) {
-		registerItem(new ItemBlock(block), name);
-	}
-
 	@SideOnly(Side.CLIENT)
-	private static void registerRender(Item item) {
+	private void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "normal"));
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void registerRender(Block block) throws NullPointerException {
+	private void registerRender(Block block) throws NullPointerException {
 		Item item = Item.getItemFromBlock(block);
 		if (item != null){
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));

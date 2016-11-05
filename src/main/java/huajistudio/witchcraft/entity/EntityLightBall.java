@@ -9,6 +9,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 /**
  * Could be thrown with the magic wand.
  */
@@ -26,12 +28,13 @@ public class EntityLightBall extends EntityFireball {
 	}
 
 	@Override
+	@Nonnull
 	protected EnumParticleTypes getParticleType() {
 		return EnumParticleTypes.SPELL;
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onImpact(@Nonnull RayTraceResult result) {
 		if (worldObj.isRemote)
 			return;
 		if (result.entityHit instanceof EntityLiving) {

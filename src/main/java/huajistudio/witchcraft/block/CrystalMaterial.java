@@ -9,7 +9,7 @@ public final class CrystalMaterial extends Material {
 	public CrystalMaterial() {
 		super(MapColor.BLUE);
 		try {
-			Field isTranslucent = CrystalMaterial.class.getDeclaredField("field_76240_I");
+			Field isTranslucent = Material.class.getDeclaredField("field_76240_I");
 			isTranslucent.setAccessible(true);
 			isTranslucent.setBoolean(this, true);
 		} catch (Exception e) {

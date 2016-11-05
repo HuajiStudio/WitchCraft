@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -27,7 +28,7 @@ public class BlockLoader {
 		}
 
 		@Override
-		public int getExpDrop(@Nullable IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune)
+		public int getExpDrop(@Nullable IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
 		{
 			Random rand = world instanceof World ? ((World)world).rand : new Random();
 			if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this))

@@ -12,6 +12,5 @@ public class EnchantmentLoader {
 		public boolean canApplyTogether(Enchantment ench) {
 			return super.canApplyTogether(ench) && ench != Enchantments.FIRE_ASPECT;
 		}
-	})
-			.setName("explode");
+	}).setName("explode");
 }
