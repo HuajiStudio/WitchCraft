@@ -9,6 +9,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
+import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nonnull;
 
 public class ItemWand extends Item {
 	private final float ATTACK_DAMAGE;
@@ -21,8 +24,11 @@ public class ItemWand extends Item {
 		setMaxDamage(material.getMaxUses());
 		setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 		ATTACK_DAMAGE = 3.0F;
+		GL11.glBegin(GL11.GL_TRIANGLES);
+		GL11.glVertex3i(0,0,0);
 	}
 
+	@Override
 	public float getStrVsBlock(ItemStack stack, IBlockState state) {
 		Block block = state.getBlock();
 		if (block == Blocks.WEB)
@@ -34,16 +40,18 @@ public class ItemWand extends Item {
 	}
 
 	@Override
-	public String getHighlightTip(ItemStack item, String displayName) {
+	@Nonnull
+	public String getHighlightTip(ItemStack item, @Nonnull String displayName) {
 		return super.getHighlightTip(item, displayName);
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	@Nonnull
+	public String getItemStackDisplayName(@Nonnull ItemStack stack) {
 		try {
 			String wandType = stack.getTagCompound().getString("wandType");
 			return ("" + I18n.translateToLocal(Namer.buildUnlocalizedName("item." + PREFIX, wandType + ".name"))).trim();
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 		return super.getItemStackDisplayName(stack);

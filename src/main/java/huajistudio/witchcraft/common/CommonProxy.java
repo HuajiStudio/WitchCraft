@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommonProxy {
-	public Class[] loaders = new Class[]{MaterialLoader.class, BlockLoader.class, ItemLoader.class,
-			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class};
+	public Class[] loaders = new Class[]{
+			MaterialLoader.class, BlockLoader.class, ItemLoader.class,
+			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class
+	};
 
 	public Collection<Object> loaderObjects = new ArrayList<>();
 
