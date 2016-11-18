@@ -5,8 +5,6 @@ import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +18,9 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockLoader {
+	/**
+	 * Don't set the registry name straightly!
+	 **/
 	public static final Block CRYSTAL_ORE = new BlockOre() {
 		@Nullable
 		@Override
@@ -32,26 +33,20 @@ public class BlockLoader {
 		{
 			Random rand = world instanceof World ? ((World)world).rand : new Random();
 			if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this))
-			{
-				// Experiences dropped by a emerald ore
 				return MathHelper.getRandomIntegerInRange(rand, 3, 7);
-			}
 			return 0;
 		}
 	}.setUnlocalizedName("crystalOre")
-			.setRegistryName("crystal_ore")
 			.setHardness(3.0F)
 			.setResistance(5.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Block CRYSTAL_BLOCK = (new Block(Material.IRON, MapColor.PURPLE))
+	public static final Block CRYSTAL_BLOCK = (new Block(MaterialLoader.CRYSTAL))
 			.setUnlocalizedName("crystalBlock")
-			.setRegistryName("crystal_block")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Block MAGIC_CRYSTAL_BLOCK = (new Block(Material.IRON, MapColor.PURPLE))
+	public static final Block MAGIC_CRYSTAL_BLOCK = (new Block(MaterialLoader.CRYSTAL))
 			.setUnlocalizedName("magicCrystalBlock")
-			.setRegistryName("magic_crystal_block")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setLightLevel(2.5F)

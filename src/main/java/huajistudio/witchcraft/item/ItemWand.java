@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
-import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 
@@ -24,8 +23,8 @@ public class ItemWand extends Item {
 		setMaxDamage(material.getMaxUses());
 		setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 		ATTACK_DAMAGE = 3.0F;
-		GL11.glBegin(GL11.GL_TRIANGLES);
-		GL11.glVertex3i(0,0,0);
+		//GL11.glBegin(GL11.GL_TRIANGLES);
+		//GL11.glVertex3i(0,0,0);
 	}
 
 	@Override

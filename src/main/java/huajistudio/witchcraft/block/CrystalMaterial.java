@@ -7,9 +7,9 @@ import java.lang.reflect.Field;
 
 public final class CrystalMaterial extends Material {
 	public CrystalMaterial() {
-		super(MapColor.BLUE);
+		super(MapColor.PURPLE);
 		try {
-			Field isTranslucent = Material.class.getDeclaredField("field_76240_I");
+			Field isTranslucent = Material.class.getDeclaredField("isTranslucent");
 			isTranslucent.setAccessible(true);
 			isTranslucent.setBoolean(this, true);
 		} catch (Exception e) {
