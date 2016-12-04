@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.event.*;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class CommonProxy {
 			MaterialLoader.class, BlockLoader.class, ItemLoader.class,
 			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class
 	};
+
+	public File configurationDir = new File("");
 
 	public Collection<Object> loaderObjects = new ArrayList<>();
 
@@ -80,6 +83,7 @@ public class CommonProxy {
 	}
 
 	public void preInit(FMLPreInitializationEvent event) {
+		configurationDir = event.getModConfigurationDirectory();
 		invokeForEvent(LoaderState.PREINITIALIZATION, event);
 	}
 
