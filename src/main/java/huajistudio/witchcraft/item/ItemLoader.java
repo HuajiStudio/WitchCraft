@@ -54,15 +54,13 @@ public class ItemLoader {
 	@SideOnly(Side.CLIENT)
 	private void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "normal"));
+		System.out.println(item.getRegistryName().toString() + " registered");
 	}
 
 	@SideOnly(Side.CLIENT)
-	private void registerRender(Block block) throws NullPointerException {
+	private void registerRender(Block block) {
 		Item item = Item.getItemFromBlock(block);
-		if (item != null){
+		if (item != null)
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
-		} else {
-			throw new NullPointerException(block.getUnlocalizedName() + " not found");
-		}
 	}
 }

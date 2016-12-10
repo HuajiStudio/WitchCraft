@@ -1,16 +1,12 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import huajistudio.witchcraft.util.Namer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-
-import javax.annotation.Nonnull;
 
 public class ItemWand extends Item {
 	private final float ATTACK_DAMAGE;
@@ -38,21 +34,23 @@ public class ItemWand extends Item {
 		}
 	}
 
-	@Override
-	@Nonnull
-	public String getHighlightTip(ItemStack item, @Nonnull String displayName) {
-		return super.getHighlightTip(item, displayName);
-	}
+/*
+@Override
+@Nonnull
+public String getHighlightTip(ItemStack item, @Nonnull String displayName) {
+return super.getHighlightTip(item, displayName);
+}
+@Override
+@Nonnull
+public String getItemStackDisplayName(@Nonnull ItemStack stack) {
+try {
+String wandType = stack.getTagCompound().getString("wandType");
+return ("" + I18n.translateToLocal(Namer.buildUnlocalizedName("item." + PREFIX, wandType + ".name"))).trim();
+} catch (NullPointerException e) {
+e.printStackTrace();
+}
+return super.getItemStackDisplayName(stack);
+}
+*/
 
-	@Override
-	@Nonnull
-	public String getItemStackDisplayName(@Nonnull ItemStack stack) {
-		try {
-			String wandType = stack.getTagCompound().getString("wandType");
-			return ("" + I18n.translateToLocal(Namer.buildUnlocalizedName("item." + PREFIX, wandType + ".name"))).trim();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return super.getItemStackDisplayName(stack);
-	}
 }

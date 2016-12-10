@@ -1,6 +1,7 @@
 package huajistudio.witchcraft.world.gen;
 
 import huajistudio.witchcraft.block.BlockLoader;
+import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -10,12 +11,13 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.Random;
 
 public class WorldGeneratorLoader {
-	public static IWorldGenerator generatorCrystalOre = new IWorldGenerator() {
+	public static final IWorldGenerator generatorCrystalOre = new IWorldGenerator() {
 		private final WorldGenMinable crystalOreGenerator = new WorldGenMinable(BlockLoader.CRYSTAL_ORE.getDefaultState(), 16);
 
 		@Override
@@ -37,7 +39,7 @@ public class WorldGeneratorLoader {
 		}
 	};
 
-	// TODO @Load(LoaderState.PREINITIALIZATION)
+	@Load(LoaderState.PREINITIALIZATION)
 	public void registerWorldGenerators() {
 		GameRegistry.registerWorldGenerator(generatorCrystalOre, 1);
 	}
