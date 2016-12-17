@@ -1,13 +1,13 @@
 package huajistudio.witchcraft.client;
 
 import huajistudio.witchcraft.common.CommonProxy;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 
 public class ClientProxy extends CommonProxy {
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		super.postInit(event);
+	public void preInit(FMLPreInitializationEvent event) {
+		super.preInit(event);
 		try {
 			getItemLoader().registerRenders();
 		} catch (Exception e) {

@@ -60,6 +60,6 @@ public class ItemLoader {
 	private void registerRender(Block block) {
 		Item item = Item.getItemFromBlock(block);
 		if (item != null)
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 }
