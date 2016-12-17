@@ -53,8 +53,7 @@ public class ItemLoader {
 
 	@SideOnly(Side.CLIENT)
 	private void registerRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "normal"));
-		System.out.println(item.getRegistryName().toString() + " registered");
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
 	@SideOnly(Side.CLIENT)

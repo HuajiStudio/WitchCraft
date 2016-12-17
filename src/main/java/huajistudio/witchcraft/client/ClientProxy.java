@@ -11,7 +11,7 @@ public class ClientProxy extends CommonProxy {
 		try {
 			getItemLoader().registerRenders();
 		} catch (Exception e) {
-			LogManager.getLogger("Minecraft").warn("Cannot register render", e);
+			LogManager.getLogger("Minecraft").warn("Cannot register renderer", e);
 		}
 	}
 }

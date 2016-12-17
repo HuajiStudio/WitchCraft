@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -61,5 +62,6 @@ public class BlockLoader {
 
 	private void registerBlock(Block block, String name) {
 		GameRegistry.register(block.setRegistryName(name));
+		GameRegistry.register((new ItemBlock(block)).setRegistryName(name));
 	}
 }
