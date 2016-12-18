@@ -3,6 +3,7 @@ package huajistudio.witchcraft.item;
 import huajistudio.witchcraft.common.WCEventFactory;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
+import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,9 +18,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemWand extends Item {
+	public static final String PREFIX = "wand";
 	private final float ATTACK_DAMAGE;
 	private final ToolMaterial MATERIAL;
-	private final String PREFIX = "wand";
 
 	public ItemWand(ToolMaterial material) {
 		this.MATERIAL = material;
@@ -44,9 +45,16 @@ public class ItemWand extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		/*
 		ActionResult<ItemStack> result = WCEventFactory.onLightBallNock(itemStackIn, worldIn, playerIn, hand);
 		if (result != null)
 			return result;
+		playerIn.setActiveHand(hand);
+		*/
+		LightBallNockEvent event = new LightBallNockEvent(playerIn, itemStackIn, hand, worldIn);
+		WCEventFactory.EVENT_BUS.post(event);
+		if (event.getAction() != null)
+			return event.getAction();
 		playerIn.setActiveHand(hand);
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}

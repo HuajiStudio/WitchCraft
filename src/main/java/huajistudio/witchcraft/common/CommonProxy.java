@@ -7,6 +7,7 @@ import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLoader;
 import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.util.loader.Load;
+import huajistudio.witchcraft.world.gen.WorldGeneratorLoader;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.event.*;
 
@@ -22,7 +23,8 @@ import java.util.Map;
 public class CommonProxy {
 	public Class[] loaders = new Class[]{
 			MaterialLoader.class, BlockLoader.class, ItemLoader.class,
-			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class
+			EnchantmentLoader.class, CraftingLoader.class, EntityLoader.class,
+			WorldGeneratorLoader.class
 	};
 
 	public File configurationDir = new File("");

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CraftingLoader {
 	@Load(LoaderState.INITIALIZATION)
 	public void registerCrafting() {
-		(new RecipesWands()).addRecipes();
+		new RecipesWands().addRecipes();
 
 		GameRegistry.addRecipe(new ItemStack(BlockLoader.CRYSTAL_BLOCK), "###", "###", "###", '#', ItemLoader.CRYSTAL);
 		GameRegistry.addRecipe(new ItemStack(BlockLoader.MAGIC_CRYSTAL_BLOCK), "###", "###", "###", '#', ItemLoader.MAGIC_CRYSTAL);
