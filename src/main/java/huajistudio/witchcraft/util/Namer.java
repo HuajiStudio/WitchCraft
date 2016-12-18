@@ -10,7 +10,7 @@ public class Namer {
 
 	public static String buildRegistryName(String prefix, String... objects) {
 		for (String str : objects) {
-			prefix += ("_" + str);
+			prefix = str + "_" + prefix;
 		}
 		return prefix;
 	}

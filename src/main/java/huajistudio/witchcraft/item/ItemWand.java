@@ -10,12 +10,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 public class ItemWand extends Item {
 	public static final String PREFIX = "wand";
@@ -68,9 +71,15 @@ public class ItemWand extends Item {
 		if (result < 0 || stack == null || worldIn.isRemote)
 			return;
 		EntityLightBall lightBall = new EntityLightBall(worldIn, player);
-		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 3.0F * EntityLightBall.getLightBallVelocity(result), 1.0F);
+		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result), 1.0F);
 		// TODO add enchantment effects
 		worldIn.spawnEntityInWorld(lightBall);
+	}
+
+	@Override
+	@Nonnull
+	public EnumAction getItemUseAction(ItemStack stack) {
+		return EnumAction.BOW;
 	}
 
 	@Override
