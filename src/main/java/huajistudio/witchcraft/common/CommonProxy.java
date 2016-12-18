@@ -78,6 +78,14 @@ public class CommonProxy {
 		return null;
 	}
 
+	@Nullable
+	public EntityLoader getEntityLoader() {
+		for (Object o : loaderObjects)
+			if (o instanceof EntityLoader)
+				return (EntityLoader) o;
+		return null;
+	}
+
 	public void construction(FMLConstructionEvent event) {
 		invokeForEvent(LoaderState.CONSTRUCTING, event);
 	}

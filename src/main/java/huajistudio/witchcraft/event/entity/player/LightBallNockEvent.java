@@ -1,5 +1,7 @@
 package huajistudio.witchcraft.event.entity.player;
 
+import huajistudio.witchcraft.common.WCEventFactory;
+import huajistudio.witchcraft.item.ItemWand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -7,19 +9,23 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
+/**
+ * LightBallNockEvent is fired when a player begins using a wand.
+ * This event is fired whenever a player begins using a wand in
+ * {@link ItemWand#onItemRightClick(ItemStack, World, EntityPlayer, EnumHand)}.
+ * This event is fired on the {@link WCEventFactory#EVENT_BUS}
+ **/
 public class LightBallNockEvent extends PlayerEvent {
 	private final ItemStack wand;
 	private final EnumHand hand;
 	private final World world;
-	private final boolean hasAmmo;
 	private ActionResult<ItemStack> action;
 
-	public LightBallNockEvent(EntityPlayer player, ItemStack wand, EnumHand hand, World world, boolean hasAmmo) {
+	public LightBallNockEvent(EntityPlayer player, ItemStack wand, EnumHand hand, World world) {
 		super(player);
 		this.wand = wand;
 		this.hand = hand;
 		this.world = world;
-		this.hasAmmo = hasAmmo;
 	}
 
 	public ItemStack getWand() {
@@ -32,10 +38,6 @@ public class LightBallNockEvent extends PlayerEvent {
 
 	public World getWorld() {
 		return world;
-	}
-
-	public boolean hasAmmo() {
-		return hasAmmo;
 	}
 
 	public ActionResult<ItemStack> getAction() {

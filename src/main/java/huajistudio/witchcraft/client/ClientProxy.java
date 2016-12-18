@@ -10,6 +10,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 		try {
 			getItemLoader().registerRenders();
+			getEntityLoader().registerRenders();
 		} catch (Exception e) {
 			LogManager.getLogger("Minecraft").warn("Cannot register renderer", e);
 		}
