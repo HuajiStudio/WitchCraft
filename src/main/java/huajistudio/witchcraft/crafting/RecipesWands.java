@@ -42,12 +42,12 @@ class RecipesWands {
 					tagCompound.setInteger("magicCapability", MathHelper.ceiling_float_int(
 							((ItemWand) wandStack.getItem()).getMaterial().getMaxUses() * 4.6125f)
 					);
+					tagCompound.setTag("magicAmount", tagCompound.getTag("magicCapability"));
 					wandStack.setTagCompound(tagCompound);
 				}
 			} catch (Exception ignored) {}
 			GameRegistry.addRecipe(wandStack, recipePattern,
-					'#', recipeMaterials.parallelStream().filter(
-							stack -> stack.equals(entry.getKey().getRepairItemStack())).findFirst().get(),
+					'#', recipeMaterials.parallelStream().filter(stack -> stack.isItemEqualIgnoreDurability(entry.getKey().getRepairItemStack())).findAny().get(),
 					'X', ItemLoader.MAGIC_CRYSTAL,
 					'W', Items.STICK);
 		});

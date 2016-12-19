@@ -12,3 +12,5 @@ item.wandDiamond.name=Diamond Wand
 item.wandGold.name=Golden Wand
 
 itemGroup.witchCraft=Witch Craft
+
+text.wand.recharge_needed=Magic point was exhausted, please recharge ASAP!

@@ -13,9 +13,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -34,7 +37,7 @@ public class ItemWand extends Item {
 	public ItemWand(ToolMaterial material) {
 		this.MATERIAL = material;
 		setMaxStackSize(1);
-		setMaxDamage(material.getMaxUses());
+		setMaxDamage(MathHelper.ceiling_float_int(material.getMaxUses() * 4.6125f));
 		setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 		ATTACK_DAMAGE = 3.0F;
 		//GL11.glBegin(GL11.GL_TRIANGLES);
@@ -82,6 +85,17 @@ public class ItemWand extends Item {
 		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result), 1.0F);
 		// TODO add enchantment effects
 		worldIn.spawnEntityInWorld(lightBall);
+		if (stack.getTagCompound() != null) {
+			NBTTagCompound compound = stack.getTagCompound();
+			int currentMagicAmount = stack.getTagCompound().getInteger("magicAmount") - (getMaxItemUseDuration(stack) - timeLeft);
+			if (currentMagicAmount > 0)
+				compound.setInteger("magicAmount", currentMagicAmount);
+			else {
+				compound.setInteger("magicAmount", 0);
+				player.addChatComponentMessage(new TextComponentTranslation("text.wand.recharge_needed"));
+			}
+			stack.setTagCompound(compound);
+		}
 	}
 
 	@Override
@@ -92,11 +106,18 @@ public class ItemWand extends Item {
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
-		return 72000;
+		return MathHelper.ceiling_float_int(72000f / getMaterial().getHarvestLevel());
 	}
 
 	public ToolMaterial getMaterial() {
 		return MATERIAL;
+	}
+
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) {
+		if (stack.getTagCompound() != null)
+			return (double)stack.getTagCompound().getInteger("magicAmount") / (double)stack.getTagCompound().getInteger("magicCapability");
+		return 1.0d;
 	}
 /*
 @Override

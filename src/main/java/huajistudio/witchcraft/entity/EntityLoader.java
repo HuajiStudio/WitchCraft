@@ -16,7 +16,6 @@ public class EntityLoader {
 	private static int nextID = 0;
 
 	@SideOnly(Side.CLIENT)
-	@Load(LoaderState.POSTINITIALIZATION)
 	public void registerRenders() {
 		registerRender(EntityLightBall.class, RenderLightBall.class);
 	}

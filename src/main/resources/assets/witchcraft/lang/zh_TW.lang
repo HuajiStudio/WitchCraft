@@ -6,3 +6,5 @@ item.crystal.name=水晶
 item.magicCrystal.name=魔法水晶
 
 itemGroup.witchCraft=巫術
+
+text.wand.recharge_needed=魔法值已耗盡，請及時充能！
