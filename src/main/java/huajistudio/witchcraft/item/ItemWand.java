@@ -21,10 +21,16 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class ItemWand extends Item {
+	@SuppressWarnings("all")
 	public static final String PREFIX = "wand";
+
+	@SuppressWarnings("all")
 	private final float ATTACK_DAMAGE;
+
+	@SuppressWarnings("all")
 	private final ToolMaterial MATERIAL;
 
+	@SuppressWarnings("all")
 	public ItemWand(ToolMaterial material) {
 		this.MATERIAL = material;
 		setMaxStackSize(1);
@@ -47,13 +53,15 @@ public class ItemWand extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	@Nonnull
+	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		/*
 		ActionResult<ItemStack> result = WCEventFactory.onLightBallNock(itemStackIn, worldIn, playerIn, hand);
 		if (result != null)
 			return result;
 		playerIn.setActiveHand(hand);
 		*/
+
 		LightBallNockEvent event = new LightBallNockEvent(playerIn, itemStackIn, hand, worldIn);
 		WCEventFactory.EVENT_BUS.post(event);
 		if (event.getAction() != null)
@@ -87,6 +95,9 @@ public class ItemWand extends Item {
 		return 72000;
 	}
 
+	public ToolMaterial getMaterial() {
+		return MATERIAL;
+	}
 /*
 @Override
 @Nonnull

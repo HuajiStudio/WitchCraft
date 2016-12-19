@@ -6,9 +6,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 
+@SuppressWarnings("unused")
 public class WandCapabilityStorage implements Capability.IStorage<ItemStack> {
 	@Override
 	public NBTBase writeNBT(Capability<ItemStack> capability, ItemStack instance, EnumFacing side) {
+		@SuppressWarnings("unused")
 		NBTTagCompound stackCompound = instance.getTagCompound();
 		//TODO Write instance's nbt data into stackCompound
 		return stackCompound;
