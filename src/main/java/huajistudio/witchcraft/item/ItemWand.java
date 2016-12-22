@@ -7,9 +7,11 @@ import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -83,7 +85,15 @@ public class ItemWand extends Item {
 			return;
 		EntityLightBall lightBall = new EntityLightBall(worldIn, player);
 		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result), 1.0F);
+
+		// knockback
+		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+		if (k > 0)
+			lightBall.setKnockbackStrength(k);
+
 		// TODO add enchantment effects
+
+		stack.damageItem(1, player);
 		worldIn.spawnEntityInWorld(lightBall);
 		if (stack.getTagCompound() != null) {
 			NBTTagCompound compound = stack.getTagCompound();

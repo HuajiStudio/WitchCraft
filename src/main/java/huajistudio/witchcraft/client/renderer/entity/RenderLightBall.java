@@ -38,8 +38,7 @@ public class RenderLightBall extends Render<EntityLightBall> {
 		GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate((float)(renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
-		if (this.renderOutlines)
-		{
+		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableOutlineMode(getTeamColor(entity));
 		}
@@ -51,8 +50,7 @@ public class RenderLightBall extends Render<EntityLightBall> {
 		vertexbuffer.pos(-0.5D, 0.75D, 0.0D).tex((double)f, (double)f2).normal(0.0F, 1.0F, 0.0F).endVertex();
 		tessellator.draw();
 
-		if (renderOutlines)
-		{
+		if (renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}

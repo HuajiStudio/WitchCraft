@@ -18,6 +18,8 @@ import javax.annotation.Nonnull;
  */
 public class EntityLightBall extends EntityFireball implements IProjectile {
 
+	private int knockbackStrength;
+
 	public EntityLightBall(World worldIn) {
 		super(worldIn);
 		setSize(0.3125F, 0.3125F);
@@ -38,8 +40,12 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	protected void onImpact(@Nonnull RayTraceResult result) {
 		if (worldObj.isRemote)
 			return;
-		if (result.entityHit instanceof EntityLiving)
+		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);
+			float motionDist = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+			if (motionDist > 0.0F)
+				result.entityHit.addVelocity(motionX * knockbackStrength * 0x1.333334p-1 / (double) motionDist, 0.1D, motionZ * knockbackStrength * 0x1.333334p-1 / (double) motionDist);
+		}
 		setDead();
 	}
 
@@ -49,6 +55,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	}
 
 	@Override
+	@Nonnull
 	protected EnumParticleTypes getParticleType() {
 		return EnumParticleTypes.SPELL;
 	}
@@ -60,7 +67,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 
 	/**
 	 * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
-	 */
+	 **/
 	@Override
 	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy)
 	{
@@ -84,9 +91,13 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		this.prevRotationPitch = this.rotationPitch;
 	}
 
+	public void setKnockbackStrength(int knockbackStrength) {
+		this.knockbackStrength = knockbackStrength;
+	}
+
 	/**
 	 * Sets throwable heading based on an entity that's throwing it
-	 */
+	 **/
 	public void setHeadingFromThrower(Entity entityThrower, float rotationPitchIn, float rotationYawIn, float pitchOffset, float velocity, float inaccuracy)
 	{
 		float f = -MathHelper.sin(rotationYawIn * 0.017453292F) * MathHelper.cos(rotationPitchIn * 0.017453292F);
