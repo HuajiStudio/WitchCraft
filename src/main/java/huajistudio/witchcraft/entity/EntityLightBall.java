@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
  * Could be thrown with the magic wand.
  */
 public class EntityLightBall extends EntityFireball implements IProjectile {
-
+	private int explosionStrength;
 	private int knockbackStrength;
 
 	public EntityLightBall(World worldIn) {
@@ -40,6 +40,9 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	protected void onImpact(@Nonnull RayTraceResult result) {
 		if (worldObj.isRemote)
 			return;
+		if (explosionStrength > 0) {
+			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, false);
+		}
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);
 			float motionDist = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
@@ -117,5 +120,9 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		float f = charge / 20.0F;
 		f = f * (f + 2.0F) / 3.0F;
 		return f > 1.0F ? 1.0F : f;
+	}
+
+	public void setExplosionStrength(int strength) {
+		explosionStrength = strength;
 	}
 }

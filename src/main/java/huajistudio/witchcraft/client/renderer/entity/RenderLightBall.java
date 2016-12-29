@@ -2,7 +2,6 @@ package huajistudio.witchcraft.client.renderer.entity;
 
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.EntityLightBall;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -10,10 +9,10 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Method;
 
 public class RenderLightBall extends Render<EntityLightBall> {
 	private static final ResourceLocation LIGHTBALL_TEXTURE = new ResourceLocation(WitchCraft.MODID + ":textures/entity/lightball.png");
@@ -28,7 +27,15 @@ public class RenderLightBall extends Render<EntityLightBall> {
 		bindEntityTexture(entity);
 		GlStateManager.translate((float)x, (float)y, (float)z);
 		GlStateManager.enableRescaleNormal();
-		TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(Items.FIRE_CHARGE);
+		TextureAtlasSprite textureatlassprite;
+		try {
+			Method method = TextureAtlasSprite.class.getDeclaredMethod("makeAtlasSprite", ResourceLocation.class);
+			method.setAccessible(true);
+			textureatlassprite = (TextureAtlasSprite) method.invoke(null, LIGHTBALL_TEXTURE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		float f = textureatlassprite.getMinU();

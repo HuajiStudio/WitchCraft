@@ -2,6 +2,7 @@ package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
+import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
 import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
 import net.minecraft.block.Block;
@@ -90,7 +91,9 @@ public class ItemWand extends Item {
 		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 		if (k > 0)
 			lightBall.setKnockbackStrength(k);
-
+		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.EXPLOSION, stack);
+		if (k > 0)
+			lightBall.setExplosionStrength(k);
 		// TODO add enchantment effects
 
 		stack.damageItem(1, player);
