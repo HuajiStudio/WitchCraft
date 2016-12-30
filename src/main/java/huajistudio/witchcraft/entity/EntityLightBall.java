@@ -41,7 +41,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		if (worldObj.isRemote)
 			return;
 		if (explosionStrength > 0) {
-			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, false);
+			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, true);
 		}
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);
@@ -78,9 +78,6 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		x = x / (double)f;
 		y = y / (double)f;
 		z = z / (double)f;
-		x = x + this.rand.nextGaussian() * 0.007499999832361937D * (double)inaccuracy;
-		y = y + this.rand.nextGaussian() * 0.007499999832361937D * (double)inaccuracy;
-		z = z + this.rand.nextGaussian() * 0.007499999832361937D * (double)inaccuracy;
 		x = x * (double)velocity;
 		y = y * (double)velocity;
 		z = z * (double)velocity;
@@ -88,10 +85,10 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		this.motionY = y;
 		this.motionZ = z;
 		float f1 = MathHelper.sqrt_double(x * x + z * z);
-		this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
-		this.rotationPitch = (float)(MathHelper.atan2(y, (double)f1) * (180D / Math.PI));
-		this.prevRotationYaw = this.rotationYaw;
-		this.prevRotationPitch = this.rotationPitch;
+		rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
+		rotationPitch = (float)(MathHelper.atan2(y, (double)f1) * (180D / Math.PI));
+		prevRotationYaw = rotationYaw;
+		prevRotationPitch = rotationPitch;
 	}
 
 	public void setKnockbackStrength(int knockbackStrength) {

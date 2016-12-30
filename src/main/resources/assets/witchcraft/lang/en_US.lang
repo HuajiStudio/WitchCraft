@@ -14,4 +14,6 @@ item.wandRedstone.name=Redstone Wand
 
 itemGroup.witchCraft=Witch Craft
 
+enchantment.explosion=Explosion
+
 text.wand.recharge_needed=Magic point was exhausted, please recharge ASAP!

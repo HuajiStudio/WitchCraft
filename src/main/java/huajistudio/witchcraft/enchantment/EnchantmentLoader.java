@@ -6,11 +6,14 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
 
 public class EnchantmentLoader {
 	public static final Enchantment EXPLOSION;
+
+	public static int id = 100;
 
 	static {
 		EnumHelper.addEnchantmentType("WAND");
@@ -23,11 +26,16 @@ public class EnchantmentLoader {
 			public boolean canApplyAtEnchantingTable(ItemStack stack) {
 				return stack.getItem() instanceof ItemWand;
 			}
+
+			@Override
+			public int getMaxLevel() {
+				return 3;
+			}
 		}.setName("explosion");
 	}
 
 	@Load(LoaderState.INITIALIZATION)
 	public void registerEnchantments() {
-		// TODO register those enchantments
+		Enchantment.REGISTRY.register(id++, new ResourceLocation("explosion"), EXPLOSION);
 	}
 }
