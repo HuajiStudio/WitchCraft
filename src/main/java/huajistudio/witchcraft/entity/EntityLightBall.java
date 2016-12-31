@@ -1,10 +1,7 @@
 package huajistudio.witchcraft.entity;
 
 import huajistudio.witchcraft.util.WCDamageSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.*;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
@@ -23,17 +20,26 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	public EntityLightBall(World worldIn) {
 		super(worldIn);
 		setSize(0.3125F, 0.3125F);
+		accelerationX = 0;
+		accelerationY = 0;
+		accelerationZ = 0;
 	}
 
 	public EntityLightBall(World worldIn, double x, double y, double z) {
 		super(worldIn, x, y, z, 0, 0, 0);
 		setSize(0.3125F, 0.3125F);
+		accelerationX = 0;
+		accelerationY = 0;
+		accelerationZ = 0;
 	}
 
 	public EntityLightBall(World worldIn, EntityLivingBase shooter) {
 		super(worldIn, shooter, 0, 0, 0);
 		posY += shooter.height * 0.75;
 		setSize(0.3125F, 0.3125F);
+		accelerationX = 0;
+		accelerationY = 0;
+		accelerationZ = 0;
 	}
 
 	@Override
@@ -42,6 +48,12 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 			return;
 		if (explosionStrength > 0) {
 			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, true);
+			EntityAreaEffectCloud areaEffectCloud = new EntityAreaEffectCloud(worldObj, posX, posY, posZ);
+			areaEffectCloud.setOwner(shootingEntity);
+			areaEffectCloud.setParticle(EnumParticleTypes.SPELL);
+			areaEffectCloud.setRadius(explosionStrength * 2.0F);
+			areaEffectCloud.setDuration(20);
+			worldObj.spawnEntityInWorld(areaEffectCloud);
 		}
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);

@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemWand extends Item {
+public class ItemWand extends Item implements IWand {
 	@SuppressWarnings("all")
 	public static final String PREFIX = "wand";
 
