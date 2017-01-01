@@ -4,13 +4,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
+import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.util.Namer;
 import huajistudio.witchcraft.util.loader.GenItem;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemEnchantedBook;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
@@ -19,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Collection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -29,6 +34,7 @@ public class ItemLoader {
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Map<ToolMaterial, ItemWand> WAND_MAP = Maps.newHashMap();
+	public static final Collection<ItemEnchantedBook> ENCHANTED_BOOKS = Lists.newArrayList();
 
 	public ItemLoader() {
 		if (!Lists.newArrayList(ToolMaterial.values()).contains(ToolMaterial.valueOf("REDSTONE")))
@@ -37,7 +43,13 @@ public class ItemLoader {
 
 		WAND_MAP.entrySet().forEach(entry -> {
 			entry.getValue().setUnlocalizedName(Namer.buildUnlocalizedName(ItemWand.PREFIX, entry.getKey().name().toLowerCase()));
-			entry.getValue().setRegistryName(Namer.buildRegistryName(ItemWand.PREFIX, entry.getKey().name().toLowerCase()));
+			entry.getValue().setRegistryName(Namer.buildToolRegistryName(ItemWand.PREFIX, entry.getKey().name().toLowerCase()));
+		});
+
+		EnchantmentLoader.ENCHANTMENTS.forEach(enchantment -> {
+			ItemEnchantedBook book = new ItemEnchantedBook();
+			book.addEnchantment(new ItemStack(book), new EnchantmentData(enchantment, enchantment.getMaxLevel()));
+			ENCHANTED_BOOKS.add(book);
 		});
 	}
 
@@ -46,6 +58,7 @@ public class ItemLoader {
 		registerItem(CRYSTAL, "crystal", "gemCrystal");
 		registerItem(MAGIC_CRYSTAL, "magic_crystal", "gemMagicCrystal");
 		WAND_MAP.entrySet().forEach(entry -> GameRegistry.register(entry.getValue()));
+		ENCHANTED_BOOKS.forEach(book -> GameRegistry.register(book));
 		for (Field field : ItemLoader.class.getDeclaredFields()) {
 			for (Annotation annotation : field.getDeclaredAnnotations()) {
 				if (annotation.annotationType().equals(GenItem.class)) {

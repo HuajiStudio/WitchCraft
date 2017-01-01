@@ -10,7 +10,10 @@ item.wandWood.name=Wooden Wand
 item.wandStone.name=Stone Wand
 item.wandDiamond.name=Diamond Wand
 item.wandGold.name=Golden Wand
+item.wandRedstone.name=Redstone Wand
 
 itemGroup.witchCraft=Witch Craft
+
+enchantment.explosion=Explosion
 
 text.wand.recharge_needed=Magic point was exhausted, please recharge ASAP!

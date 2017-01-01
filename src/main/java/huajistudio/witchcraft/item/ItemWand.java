@@ -2,15 +2,17 @@ package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
+import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
 import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.enchantment.EnchantmentHelper;import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +26,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemWand extends Item {
+public class ItemWand extends Item implements IWand {
 	@SuppressWarnings("all")
 	public static final String PREFIX = "wand";
 
@@ -84,7 +86,17 @@ public class ItemWand extends Item {
 			return;
 		EntityLightBall lightBall = new EntityLightBall(worldIn, player);
 		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result), 1.0F);
+
+		// knockback
+		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+		if (k > 0)
+			lightBall.setKnockbackStrength(k);
+		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.EXPLOSION, stack);
+		if (k > 0)
+			lightBall.setExplosionStrength(k);
 		// TODO add enchantment effects
+
+		stack.damageItem(1, player);
 		worldIn.spawnEntityInWorld(lightBall);
 		if (stack.getTagCompound() != null) {
 			NBTTagCompound compound = stack.getTagCompound();
