@@ -3,11 +3,11 @@ These files are the documentation of WitchCraft.
 Documentations often have newer ideas than original source files.
 
 ## File Information
-* `<Items.md>` defines the items.
-* `<Blocks.md>` defines the blocks.
-* `<Materials.md>` defines the materials used by the blocks.
-* `<Entities.md>` defines the entities.
-* `<TileEntities.md>` defines the tileentities identified by blocks.
+* `Items.md` defines the items.
+* `Blocks.md` defines the blocks.
+* `Materials.md` defines the materials used by the blocks.
+* `Entities.md` defines the entities.
+* `TileEntities.md` defines the tileentities identified by blocks.
 
 ## License
 [![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
