@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.util.Namer;
+import huajistudio.witchcraft.util.loader.GenItem;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -16,17 +17,22 @@ import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.Map;
 
 public class ItemLoader {
+	@GenItem(value = {"smelted", "crystal"}, oreDict = {"gemSmeltedCrystal"})
+	public static Item SMELTED_CRYSTAL;
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Map<ToolMaterial, ItemWand> WAND_MAP = Maps.newHashMap();
 
 	public ItemLoader() {
-		EnumHelper.addToolMaterial("REDSTONE", 2, 512, 7.0F, 2.5F, 17);
-		WAND_MAP.put(ToolMaterial.valueOf("REDSTONE"), new ItemWand(ToolMaterial.valueOf("REDSTONE")));
+		if (!Lists.newArrayList(ToolMaterial.values()).contains(ToolMaterial.valueOf("REDSTONE")))
+			EnumHelper.addToolMaterial("REDSTONE", 2, 512, 7.0F, 2.5F, 17);
 		Lists.newArrayList(ToolMaterial.values()).forEach(toolMaterial -> WAND_MAP.put(toolMaterial, new ItemWand(toolMaterial)));
 
 		WAND_MAP.entrySet().forEach(entry -> {
@@ -37,9 +43,21 @@ public class ItemLoader {
 
 	@Load(LoaderState.PREINITIALIZATION)
 	public void registerItems() {
-		registerItem(CRYSTAL, "crystal");
-		registerItem(MAGIC_CRYSTAL, "magic_crystal");
+		registerItem(CRYSTAL, "crystal", "gemCrystal");
+		registerItem(MAGIC_CRYSTAL, "magic_crystal", "gemMagicCrystal");
 		WAND_MAP.entrySet().forEach(entry -> GameRegistry.register(entry.getValue()));
+		for (Field field : ItemLoader.class.getDeclaredFields()) {
+			for (Annotation annotation : field.getDeclaredAnnotations()) {
+				if (annotation.annotationType().equals(GenItem.class)) {
+					try {
+						field.setAccessible(true);
+						Item item = new Item().setUnlocalizedName(Namer.buildUnlocalizedName(((GenItem) annotation).value()));
+						field.set(this, item);
+					} catch (IllegalAccessException ignored) {}
+				}
+			}
+			tag1:;
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -53,8 +71,13 @@ public class ItemLoader {
 		WAND_MAP.entrySet().forEach(entry -> registerRender(entry.getValue()));
 	}
 
-	private void registerItem(Item item, String name) {
-		GameRegistry.register(item.setRegistryName(name));
+	private void registerItem(Item item, String registryName) {
+		GameRegistry.register(item.setRegistryName(registryName));
+	}
+
+	private void registerItem(Item item, String registryName, String oreDictName) {
+		registerItem(item, registryName);
+		OreDictionary.registerOre(oreDictName, item);
 	}
 
 	@SideOnly(Side.CLIENT)

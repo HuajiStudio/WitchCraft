@@ -14,6 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -55,13 +56,18 @@ public class BlockLoader {
 
 	@Load(LoaderState.PREINITIALIZATION)
 	public void registerBlocks() {
-		registerBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore");
-		registerBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block");
-		registerBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block");
+		registerBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore", "oreCrystal");
+		registerBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block", "blockCrystal");
+		registerBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block", "blockMagicCrystal");
 	}
 
-	private void registerBlock(Block block, String name) {
-		GameRegistry.register(block.setRegistryName(name));
-		GameRegistry.register((new ItemBlock(block)).setRegistryName(name));
+	private void registerBlock(Block block, String registryName) {
+		GameRegistry.register(block.setRegistryName(registryName));
+		GameRegistry.register((new ItemBlock(block)).setRegistryName(registryName));
+	}
+
+	private void registerBlock(Block block, String registryName, String oreDictName) {
+		registerBlock(block, registryName);
+		OreDictionary.registerOre(oreDictName, block);
 	}
 }

@@ -7,6 +7,7 @@ import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -118,6 +119,17 @@ public class ItemWand extends Item {
 		if (stack.getTagCompound() != null)
 			return (double)stack.getTagCompound().getInteger("magicAmount") / (double)stack.getTagCompound().getInteger("magicCapability");
 		return 1.0d;
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return stack.getTagCompound() != null && stack.getTagCompound().getInteger("magicAmount") != stack.getTagCompound().getInteger("magicCapability");
+	}
+
+	@Override
+	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks) {
+		// TODO Render magic amount stats
+		super.renderHelmetOverlay(stack, player, resolution, partialTicks);
 	}
 /*
 @Override
