@@ -1,6 +1,6 @@
 package huajistudio.witchcraft.enchantment;
 
-import huajistudio.witchcraft.item.IWand;
+import huajistudio.witchcraft.item.ItemWand;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -12,6 +12,6 @@ public class EnchantmentWand extends Enchantment {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return stack.getItem() instanceof IWand;
+		return stack.getItem() instanceof ItemWand;
 	}
 }

@@ -1,7 +1,7 @@
 package huajistudio.witchcraft.common;
 
-import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
-import huajistudio.witchcraft.event.entity.player.LightBallShootEvent;
+import huajistudio.witchcraft.event.entity.player.WandNockEvent;
+import huajistudio.witchcraft.event.entity.player.WandShootEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -21,16 +21,16 @@ public class WCEventFactory {
 	}
 
 	@SubscribeEvent
-	public static ActionResult<ItemStack> onLightBallNock(ItemStack item, World world, EntityPlayer player, EnumHand hand) {
-		LightBallNockEvent event = new LightBallNockEvent(player, item, hand, world);
+	public static ActionResult<ItemStack> onWandNock(ItemStack item, World world, EntityPlayer player, EnumHand hand) {
+		WandNockEvent event = new WandNockEvent(player, item, hand, world);
 		if (EVENT_BUS.post(event))
 			return new ActionResult<>(EnumActionResult.FAIL, item);
 		return event.getAction();
 	}
 
 	@SubscribeEvent
-	public static int onLightBallShoot(ItemStack item, World world, EntityPlayer player, int charge) {
-		LightBallShootEvent event = new LightBallShootEvent(player, item, world, charge);
+	public static int onWandShoot(ItemStack item, World world, EntityPlayer player, int charge) {
+		WandShootEvent event = new WandShootEvent(player, item, world, charge);
 		if (EVENT_BUS.post(event))
 			return -1;
 		return event.getCharge();

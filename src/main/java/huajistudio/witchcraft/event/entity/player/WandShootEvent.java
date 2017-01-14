@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-public class LightBallShootEvent extends PlayerEvent {
+public class WandShootEvent extends PlayerEvent {
 	private final ItemStack wand;
 	private final World world;
 	private int charge;
 
-	public LightBallShootEvent(EntityPlayer player, ItemStack wand, World world, int charge) {
+	public WandShootEvent(EntityPlayer player, ItemStack wand, World world, int charge) {
 		super(player);
 		this.wand = wand;
 		this.world = world;

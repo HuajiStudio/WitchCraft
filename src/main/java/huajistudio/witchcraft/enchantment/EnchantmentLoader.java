@@ -18,7 +18,7 @@ public class EnchantmentLoader {
 	public static final Enchantment EXPLOSION = new EnchantmentWand(Enchantment.Rarity.RARE) {
 		@Override
 		public int getMaxLevel() {
-			return 3;
+			return 15;
 		}
 	}.setName("explosion");
 

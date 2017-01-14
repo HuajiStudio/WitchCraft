@@ -1,114 +1,63 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
-import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
-import huajistudio.witchcraft.event.entity.player.LightBallNockEvent;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.enchantment.EnchantmentHelper;import net.minecraft.entity.EntityLivingBase;
+import huajistudio.witchcraft.util.wand.WandHelper;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemWand extends Item implements IWand {
-	@SuppressWarnings("all")
-	public static final String PREFIX = "wand";
-
-	@SuppressWarnings("all")
-	private final float ATTACK_DAMAGE;
-
-	@SuppressWarnings("all")
-	private final ToolMaterial MATERIAL;
-
-	@SuppressWarnings("all")
-	public ItemWand(ToolMaterial material) {
-		this.MATERIAL = material;
-		setMaxStackSize(1);
-		setMaxDamage(MathHelper.ceiling_float_int(material.getMaxUses() * 4.6125f));
-		setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-		ATTACK_DAMAGE = 3.0F;
-		//GL11.glBegin(GL11.GL_TRIANGLES);
-		//GL11.glVertex3i(0,0,0);
-	}
-
-	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
-		Block block = state.getBlock();
-		if (block == Blocks.WEB)
-			return 15.0F;
-		else {
-			Material material = state.getMaterial();
-			return material != Material.PLANTS && material != Material.VINE && material != Material.CORAL && material != Material.LEAVES && material != Material.GOURD ? 1.0F : 1.5F;
-		}
+/**
+ * @see ItemNormalWand
+ */
+public abstract class ItemWand extends ItemMagicToolBase {
+	/**
+	 * Create a new bullet entity to shoot.
+	 * @param world The world where the bullet should be shoot in.
+	 * @param shooter The entity who shoot the bullet.
+	 * @return The bullet which be shoot.
+	 */
+	public EntityFireball newBullet(World world, EntityLivingBase shooter) {
+		return new EntityLightBall(world, shooter);
 	}
 
 	@Override
 	@Nonnull
 	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		/*
-		ActionResult<ItemStack> result = WCEventFactory.onLightBallNock(itemStackIn, worldIn, playerIn, hand);
+		ActionResult<ItemStack> result = WCEventFactory.onWandNock(itemStackIn, worldIn, playerIn, hand);
 		if (result != null)
 			return result;
-		playerIn.setActiveHand(hand);
-		*/
-
-		LightBallNockEvent event = new LightBallNockEvent(playerIn, itemStackIn, hand, worldIn);
-		WCEventFactory.EVENT_BUS.post(event);
-		if (event.getAction() != null)
-			return event.getAction();
 		playerIn.setActiveHand(hand);
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-		if (!(entityLiving instanceof EntityPlayer))
+		if (worldIn.isRemote || stack == null)
 			return;
-		EntityPlayer player = (EntityPlayer) entityLiving;
-		int result = WCEventFactory.onLightBallShoot(stack, worldIn, player, getMaxItemUseDuration(stack) - timeLeft);
-		if (result < 0 || stack == null || worldIn.isRemote)
-			return;
-		EntityLightBall lightBall = new EntityLightBall(worldIn, player);
-		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result), 1.0F);
-
-		// knockback
-		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
-		if (k > 0)
-			lightBall.setKnockbackStrength(k);
-		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.EXPLOSION, stack);
-		if (k > 0)
-			lightBall.setExplosionStrength(k);
-		// TODO add enchantment effects
-
-		stack.damageItem(1, player);
-		worldIn.spawnEntityInWorld(lightBall);
-		if (stack.getTagCompound() != null) {
-			NBTTagCompound compound = stack.getTagCompound();
-			int currentMagicAmount = stack.getTagCompound().getInteger("magicAmount") - (getMaxItemUseDuration(stack) - timeLeft);
-			if (currentMagicAmount > 0)
-				compound.setInteger("magicAmount", currentMagicAmount);
-			else {
-				compound.setInteger("magicAmount", 0);
-				player.addChatComponentMessage(new TextComponentTranslation("text.wand.recharge_needed"));
-			}
-			stack.setTagCompound(compound);
+		int result = 0;
+		if (entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entityLiving;
+			result = WCEventFactory.onWandShoot(stack, worldIn, player, getMaxItemUseDuration(stack) - timeLeft);
+			if (result < 0)
+				return;
 		}
+		EntityFireball bullet = newBullet(worldIn, entityLiving);
+		WandHelper.initBulletHeading(bullet, entityLiving, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result) + EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack),
+				1.0F);
+
+		stack.damageItem(1, entityLiving);
+		worldIn.spawnEntityInWorld(bullet);
 	}
 
 	@Override
@@ -119,47 +68,6 @@ public class ItemWand extends Item implements IWand {
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
-		return MathHelper.ceiling_float_int(72000f / getMaterial().getHarvestLevel());
+		return 72000;
 	}
-
-	public ToolMaterial getMaterial() {
-		return MATERIAL;
-	}
-
-	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		if (stack.getTagCompound() != null)
-			return (double)stack.getTagCompound().getInteger("magicAmount") / (double)stack.getTagCompound().getInteger("magicCapability");
-		return 1.0d;
-	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
-		return stack.getTagCompound() != null && stack.getTagCompound().getInteger("magicAmount") != stack.getTagCompound().getInteger("magicCapability");
-	}
-
-	@Override
-	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks) {
-		// TODO Render magic amount stats
-		super.renderHelmetOverlay(stack, player, resolution, partialTicks);
-	}
-/*
-@Override
-@Nonnull
-public String getHighlightTip(ItemStack item, @Nonnull String displayName) {
-return super.getHighlightTip(item, displayName);
-}
-@Override
-@Nonnull
-public String getItemStackDisplayName(@Nonnull ItemStack stack) {
-try {
-String wandType = stack.getTagCompound().getString("wandType");
-return ("" + I18n.translateToLocal(Namer.buildUnlocalizedName("item." + PREFIX, wandType + ".name"))).trim();
-} catch (NullPointerException e) {
-e.printStackTrace();
-}
-return super.getItemStackDisplayName(stack);
-}
-*/
-
 }

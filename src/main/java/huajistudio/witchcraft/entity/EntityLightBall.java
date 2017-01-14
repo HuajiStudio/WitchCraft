@@ -3,6 +3,8 @@ package huajistudio.witchcraft.entity;
 import huajistudio.witchcraft.util.WCDamageSource;
 import net.minecraft.entity.*;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -16,6 +18,7 @@ import javax.annotation.Nonnull;
 public class EntityLightBall extends EntityFireball implements IProjectile {
 	private int explosionStrength;
 	private int knockbackStrength;
+	private Entity target;
 
 	public EntityLightBall(World worldIn) {
 		super(worldIn);
@@ -23,6 +26,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		accelerationX = 0;
 		accelerationY = 0;
 		accelerationZ = 0;
+		target = null;
 	}
 
 	public EntityLightBall(World worldIn, double x, double y, double z) {
@@ -31,6 +35,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		accelerationX = 0;
 		accelerationY = 0;
 		accelerationZ = 0;
+		target = null;
 	}
 
 	public EntityLightBall(World worldIn, EntityLivingBase shooter) {
@@ -40,6 +45,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		accelerationX = 0;
 		accelerationY = 0;
 		accelerationZ = 0;
+		target = null;
 	}
 
 	@Override
@@ -48,12 +54,6 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 			return;
 		if (explosionStrength > 0) {
 			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, true);
-			EntityAreaEffectCloud areaEffectCloud = new EntityAreaEffectCloud(worldObj, posX, posY, posZ);
-			areaEffectCloud.setOwner(shootingEntity);
-			areaEffectCloud.setParticle(EnumParticleTypes.SPELL);
-			areaEffectCloud.setRadius(explosionStrength * 2.0F);
-			areaEffectCloud.setDuration(20);
-			worldObj.spawnEntityInWorld(areaEffectCloud);
 		}
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);
@@ -80,6 +80,22 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		return false;
 	}
 
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+		compound.setTag("explosionStrength", new NBTTagInt(explosionStrength));
+		compound.setTag("knockbackStrength", new NBTTagInt(knockbackStrength));
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		if (compound.hasKey("explosionStrength"))
+			explosionStrength = compound.getInteger("explosionStrength");
+		if (compound.hasKey("knockbackStrength"))
+			knockbackStrength = compound.getInteger("knockbackStrength");
+	}
+
 	/**
 	 * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
 	 **/
@@ -101,6 +117,16 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		rotationPitch = (float)(MathHelper.atan2(y, (double)f1) * (180D / Math.PI));
 		prevRotationYaw = rotationYaw;
 		prevRotationPitch = rotationPitch;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ) <= 0.7;
+	}
+
+	@Override
+	protected float getMotionFactor() {
+		return 0.9999F;
 	}
 
 	public void setKnockbackStrength(int knockbackStrength) {

@@ -23,9 +23,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Map;
 
 public class ItemLoader {
@@ -33,17 +33,31 @@ public class ItemLoader {
 	public static Item SMELTED_CRYSTAL;
 	public static final Item CRYSTAL = (new Item()).setUnlocalizedName("crystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item MAGIC_CRYSTAL = (new Item()).setUnlocalizedName("magicCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Map<ToolMaterial, ItemWand> WAND_MAP = Maps.newHashMap();
+	public static final Item METAL_CRYSTAL = (new Item()).setUnlocalizedName("metalCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item PLANT_CRYSTAL = (new Item()).setUnlocalizedName("plantCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item WATER_CRYSTAL = (new Item()).setUnlocalizedName("waterCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item FLAME_CRYSTAL = (new Item()).setUnlocalizedName("flameCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item SOIL_CRYSTAL = (new Item()).setUnlocalizedName("soilCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item LIGHT_CRYSTAL = (new Item()).setUnlocalizedName("lightCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item SHADOW_CRYSTAL = (new Item()).setUnlocalizedName("shadowCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item LIGHT_WAND = (new ItemLightWand()).setUnlocalizedName("lightWand").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Map<ToolMaterial, ItemNormalWand> WAND_MAP = Maps.newHashMap();
 	public static final Collection<ItemEnchantedBook> ENCHANTED_BOOKS = Lists.newArrayList();
 
 	public ItemLoader() {
-		if (!Lists.newArrayList(ToolMaterial.values()).contains(ToolMaterial.valueOf("REDSTONE")))
+		boolean hasRedstoneTool = false;
+		for (ToolMaterial toolMaterial : ToolMaterial.values())
+			if (toolMaterial.name().equals("REDSTONE")) {
+				hasRedstoneTool = true;
+				break;
+			}
+		if (!hasRedstoneTool)
 			EnumHelper.addToolMaterial("REDSTONE", 2, 512, 7.0F, 2.5F, 17);
-		Lists.newArrayList(ToolMaterial.values()).forEach(toolMaterial -> WAND_MAP.put(toolMaterial, new ItemWand(toolMaterial)));
+		Lists.newArrayList(ToolMaterial.values()).forEach(toolMaterial -> WAND_MAP.put(toolMaterial, new ItemNormalWand(toolMaterial)));
 
 		WAND_MAP.entrySet().forEach(entry -> {
-			entry.getValue().setUnlocalizedName(Namer.buildUnlocalizedName(ItemWand.PREFIX, entry.getKey().name().toLowerCase()));
-			entry.getValue().setRegistryName(Namer.buildToolRegistryName(ItemWand.PREFIX, entry.getKey().name().toLowerCase()));
+			entry.getValue().setUnlocalizedName(Namer.buildUnlocalizedName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
+			entry.getValue().setRegistryName(Namer.buildToolRegistryName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
 		});
 
 		EnchantmentLoader.ENCHANTMENTS.forEach(enchantment -> {
@@ -57,8 +71,16 @@ public class ItemLoader {
 	public void registerItems() {
 		registerItem(CRYSTAL, "crystal", "gemCrystal");
 		registerItem(MAGIC_CRYSTAL, "magic_crystal", "gemMagicCrystal");
-		WAND_MAP.entrySet().forEach(entry -> GameRegistry.register(entry.getValue()));
-		ENCHANTED_BOOKS.forEach(book -> GameRegistry.register(book));
+		registerItem(METAL_CRYSTAL, "metal_crystal", "gemMagicCrystal");
+		registerItem(PLANT_CRYSTAL, "plant_crystal", "gemMagicCrystal");
+		registerItem(WATER_CRYSTAL, "water_crystal", "gemMagicCrystal");
+		registerItem(FLAME_CRYSTAL, "flame_crystal", "gemMagicCrystal");
+		registerItem(SOIL_CRYSTAL, "soil_crystal", "gemMagicCrystal");
+		registerItem(LIGHT_CRYSTAL, "light_crystal", "gemMagicCrystal");
+		registerItem(SHADOW_CRYSTAL, "shadow_crystal", "gemMagicCrystal");
+		registerItem(LIGHT_WAND, "light_wand");
+		WAND_MAP.values().forEach(GameRegistry::register);
+		ENCHANTED_BOOKS.forEach(GameRegistry::register);
 		for (Field field : ItemLoader.class.getDeclaredFields()) {
 			for (Annotation annotation : field.getDeclaredAnnotations()) {
 				if (annotation.annotationType().equals(GenItem.class)) {
