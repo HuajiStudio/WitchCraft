@@ -18,11 +18,11 @@ public class EnchantmentLoader {
 	public static final Enchantment EXPLOSION = new EnchantmentWand(Enchantment.Rarity.RARE) {
 		@Override
 		public int getMaxLevel() {
-			return 15;
+			return 3;
 		}
 	}.setName("explosion");
 
-	private static int id = 100;
+	private static int id = 0;
 
 	@Load(LoaderState.INITIALIZATION)
 	public void registerEnchantments() {
@@ -30,7 +30,7 @@ public class EnchantmentLoader {
 	}
 
 	private void registerEnchantment(Enchantment enchantment, String name) {
-		Enchantment.REGISTRY.register(id++, new ResourceLocation(name), enchantment.setRegistryName(WitchCraft.MODID, name));
+		Enchantment.REGISTRY.register(id++, new ResourceLocation(WitchCraft.MODID, name), enchantment.setRegistryName(WitchCraft.MODID, name));
 		ENCHANTMENTS.add(enchantment);
 	}
 }
