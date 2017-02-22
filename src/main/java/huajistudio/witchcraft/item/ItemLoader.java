@@ -4,17 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.util.Namer;
 import huajistudio.witchcraft.util.loader.GenItem;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemEnchantedBook;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
@@ -25,7 +21,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.Map;
 
 public class ItemLoader {
@@ -40,9 +35,8 @@ public class ItemLoader {
 	public static final Item SOIL_CRYSTAL = (new Item()).setUnlocalizedName("soilCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item LIGHT_CRYSTAL = (new Item()).setUnlocalizedName("lightCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item SHADOW_CRYSTAL = (new Item()).setUnlocalizedName("shadowCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Item LIGHT_WAND = (new ItemLightWand()).setUnlocalizedName("lightWand").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item LIGHT_WAND = (new ItemLightWand()).setUnlocalizedName("lightWand");
 	public static final Map<ToolMaterial, ItemNormalWand> WAND_MAP = Maps.newHashMap();
-	public static final Collection<ItemEnchantedBook> ENCHANTED_BOOKS = Lists.newArrayList();
 
 	public ItemLoader() {
 		boolean hasRedstoneTool = false;
@@ -59,12 +53,6 @@ public class ItemLoader {
 			entry.getValue().setUnlocalizedName(Namer.buildUnlocalizedName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
 			entry.getValue().setRegistryName(Namer.buildToolRegistryName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
 		});
-
-		EnchantmentLoader.ENCHANTMENTS.forEach(enchantment -> {
-			ItemEnchantedBook book = new ItemEnchantedBook();
-			book.addEnchantment(new ItemStack(book), new EnchantmentData(enchantment, enchantment.getMaxLevel()));
-			ENCHANTED_BOOKS.add(book);
-		});
 	}
 
 	@Load(LoaderState.PREINITIALIZATION)
@@ -80,7 +68,6 @@ public class ItemLoader {
 		registerItem(SHADOW_CRYSTAL, "shadow_crystal", "gemMagicCrystal");
 		registerItem(LIGHT_WAND, "light_wand");
 		WAND_MAP.values().forEach(GameRegistry::register);
-		ENCHANTED_BOOKS.forEach(GameRegistry::register);
 		for (Field field : ItemLoader.class.getDeclaredFields()) {
 			for (Annotation annotation : field.getDeclaredAnnotations()) {
 				if (annotation.annotationType().equals(GenItem.class)) {
