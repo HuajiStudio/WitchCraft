@@ -1,6 +1,5 @@
 package huajistudio.witchcraft.enchantment;
 
-import com.google.common.collect.Lists;
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.enchantment.Enchantment;
@@ -9,11 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
 
-import java.util.Collection;
-
 public class EnchantmentLoader {
 	public static final EnumEnchantmentType WAND_ENCHANTMENT_TYPE = EnumHelper.addEnchantmentType("WAND");
-	public static final Collection<Enchantment> ENCHANTMENTS = Lists.newArrayList();
 
 	public static final Enchantment EXPLOSION = new EnchantmentWand(Enchantment.Rarity.RARE) {
 		@Override
