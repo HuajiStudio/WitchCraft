@@ -27,9 +27,7 @@ public abstract class ItemWand extends ItemMagicToolBase {
 	 * @param shooter The entity who shoot the bullet.
 	 * @return The bullet which be shoot.
 	 */
-	public EntityFireball newBullet(World world, EntityLivingBase shooter) {
-		return new EntityLightBall(world, shooter);
-	}
+	public abstract EntityFireball newBullet(World world, EntityLivingBase shooter);
 
 	@Override
 	@Nonnull

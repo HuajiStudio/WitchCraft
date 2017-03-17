@@ -1,6 +1,7 @@
 package huajistudio.witchcraft.util.wand;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.math.MathHelper;
 
@@ -12,6 +13,10 @@ public final class WandHelper {
 	public static final float PI_R_180 = 57.295779513F;
 
 	public static void initBulletHeading(EntityFireball bullet, EntityLivingBase shooter, float pitchOffset, float velocity, float inaccuracy) {
+		if (bullet instanceof IProjectile) {
+			((IProjectile) bullet).setThrowableHeading(shooter.posX, shooter.posY, shooter.posZ, velocity, inaccuracy);
+			return;
+		}
 		float f1 = -MathHelper.sin(shooter.rotationYaw * PI_180) * MathHelper.cos(shooter.rotationPitch * PI_180);
 		float f2 = -MathHelper.sin(shooter.rotationPitch * PI_180);
 		float f3 = MathHelper.cos(shooter.rotationYaw * PI_180) * MathHelper.cos(shooter.rotationPitch * PI_180);

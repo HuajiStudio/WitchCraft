@@ -1,7 +1,6 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
-import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
 import net.minecraft.block.Block;
@@ -34,7 +33,6 @@ public class ItemNormalWand extends ItemWand {
 		MATERIAL = material;
 		setMaxStackSize(1);
 		setMaxDamage(MathHelper.ceiling_float_int(material.getMaxUses() * 4.6125f));
-		setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 		ATTACK_DAMAGE = material.getDamageVsEntity();
 		//GL11.glBegin(GL11.GL_TRIANGLES);
 		//GL11.glVertex3i(0,0,0);
