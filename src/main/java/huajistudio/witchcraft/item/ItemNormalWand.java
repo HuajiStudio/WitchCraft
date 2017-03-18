@@ -96,8 +96,8 @@ public class ItemNormalWand extends ItemWand {
 	}
 
 	@Override
-	public int getMagicCost() {
-		return 1;
+	public double getMagicCost() {
+		return 1.0D;
 	}
 
 	@Override

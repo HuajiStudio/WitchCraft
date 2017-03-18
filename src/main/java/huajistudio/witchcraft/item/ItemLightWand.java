@@ -17,8 +17,8 @@ import javax.annotation.Nonnull;
  **/
 public class ItemLightWand extends ItemWand {
 	@Override
-	public int getMagicCost() {
-		return 4;
+	public double getMagicCost() {
+		return 4.0D;
 	}
 
 	@Override

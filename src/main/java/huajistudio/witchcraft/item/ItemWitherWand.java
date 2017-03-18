@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 
 public class ItemWitherWand extends ItemWand {
 	@Override
-	public int getMagicCost() {
-		return 3;
+	public double getMagicCost() {
+		return 3.0D;
 	}
 
 	@Override
