@@ -23,11 +23,7 @@ public class Namer {
 
 	public static String buildToolRegistryName(String prefix, String... objects) {
 		for (String str : objects) {
-			if (Objects.equals(str, "wood") || Objects.equals(str, "gold")) {
-				prefix = str + "en_" + prefix;
-			} else {
-				prefix = str + "_" + prefix;
-			}
+			prefix = Objects.equals(str, "wood") || Objects.equals(str, "gold") ? str + "en_" + prefix : str + "_" + prefix;
 		}
 		return prefix;
 	}
