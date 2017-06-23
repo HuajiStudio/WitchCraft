@@ -1,4 +1,4 @@
-package huajistudio.witchcraft.client.renderer.entity;
+package huajistudio.witchcraft.client.render.entity;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;

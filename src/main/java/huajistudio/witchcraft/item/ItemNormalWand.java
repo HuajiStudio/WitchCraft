@@ -6,6 +6,7 @@ import huajistudio.witchcraft.entity.EntityLightBall;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,6 +71,8 @@ public class ItemNormalWand extends ItemWand {
 		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.EXPLOSION, stack);
 		if (k > 0)
 			lightBall.setExplosionStrength(k);
+		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.STABLE_LIGHTBALL, stack);
+		lightBall.setLife((k + 1) * 100);
 		// TODO add enchantment effects
 
 		stack.damageItem(1, player);

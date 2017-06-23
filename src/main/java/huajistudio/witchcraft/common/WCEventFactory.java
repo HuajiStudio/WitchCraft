@@ -1,5 +1,6 @@
 package huajistudio.witchcraft.common;
 
+import huajistudio.witchcraft.event.entity.player.MagicBookChantEvent;
 import huajistudio.witchcraft.event.entity.player.WandNockEvent;
 import huajistudio.witchcraft.event.entity.player.WandShootEvent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,5 +35,13 @@ public class WCEventFactory {
 		if (EVENT_BUS.post(event))
 			return -1;
 		return event.getCharge();
+	}
+
+	@SubscribeEvent
+	public static ActionResult<ItemStack> onMagicBookChant(ItemStack item, World world, EntityPlayer player, EnumHand hand) {
+		MagicBookChantEvent event = new MagicBookChantEvent(player, item, hand, world);
+		if (EVENT_BUS.post(event))
+			return new ActionResult<>(EnumActionResult.FAIL, item);
+		return event.getAction();
 	}
 }

@@ -1,4 +1,4 @@
-package huajistudio.witchcraft.client.renderer.entity;
+package huajistudio.witchcraft.client.render.entity;
 
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.EntityLightBall;

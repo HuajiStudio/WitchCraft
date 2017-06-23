@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 public class EntityLightBall extends EntityFireball implements IProjectile {
 	private int explosionStrength;
 	private int knockbackStrength;
+	private int life = 100;
 	private Entity target;
 
 	public EntityLightBall(World worldIn) {
@@ -85,6 +86,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		super.writeEntityToNBT(compound);
 		compound.setTag("explosionStrength", new NBTTagInt(explosionStrength));
 		compound.setTag("knockbackStrength", new NBTTagInt(knockbackStrength));
+		compound.setTag("life", new NBTTagInt(life));
 	}
 
 	@Override
@@ -94,6 +96,8 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 			explosionStrength = compound.getInteger("explosionStrength");
 		if (compound.hasKey("knockbackStrength"))
 			knockbackStrength = compound.getInteger("knockbackStrength");
+		if (compound.hasKey("life"))
+			life = compound.getInteger("life");
 	}
 
 	/**
@@ -129,6 +133,13 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		return 0.9999F;
 	}
 
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if (ticksExisted > life)
+			setDead();
+	}
+
 	public void setKnockbackStrength(int knockbackStrength) {
 		this.knockbackStrength = knockbackStrength;
 	}
@@ -159,5 +170,9 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 
 	public void setExplosionStrength(int strength) {
 		explosionStrength = strength;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
 	}
 }

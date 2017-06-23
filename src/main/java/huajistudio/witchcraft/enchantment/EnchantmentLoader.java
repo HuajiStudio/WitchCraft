@@ -17,12 +17,17 @@ public class EnchantmentLoader {
 			return 3;
 		}
 	}.setName("explosion");
+	public static final Enchantment STABLE_LIGHTBALL = new EnchantmentWand(Enchantment.Rarity.COMMON) {
+		@Override
+		public int getMaxLevel() { return 5; }
+	}.setName("stable_lightball");
 
 	private static int id = 0;
 
 	@Load(LoaderState.INITIALIZATION)
 	public void registerEnchantments() {
 		registerEnchantment(EXPLOSION, "explosion");
+		registerEnchantment(STABLE_LIGHTBALL, "stable_lightball");
 	}
 
 	private void registerEnchantment(Enchantment enchantment, String name) {

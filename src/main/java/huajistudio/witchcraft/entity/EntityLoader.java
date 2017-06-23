@@ -1,8 +1,8 @@
 package huajistudio.witchcraft.entity;
 
 import huajistudio.witchcraft.WitchCraft;
-import huajistudio.witchcraft.client.renderer.entity.EntityRenderFactory;
-import huajistudio.witchcraft.client.renderer.entity.RenderLightBall;
+import huajistudio.witchcraft.client.render.entity.EntityRenderFactory;
+import huajistudio.witchcraft.client.render.entity.RenderLightBall;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
