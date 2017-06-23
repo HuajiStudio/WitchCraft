@@ -49,9 +49,9 @@ public class ItemLoader {
 			EnumHelper.addToolMaterial("REDSTONE", 2, 512, 7.0F, 2.5F, 17);
 		Lists.newArrayList(ToolMaterial.values()).forEach(toolMaterial -> WAND_MAP.put(toolMaterial, new ItemNormalWand(toolMaterial)));
 
-		WAND_MAP.entrySet().forEach(entry -> {
-			entry.getValue().setUnlocalizedName(Namer.buildUnlocalizedName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
-			entry.getValue().setRegistryName(Namer.buildToolRegistryName(ItemNormalWand.PREFIX, entry.getKey().name().toLowerCase()));
+		WAND_MAP.forEach((key, value) -> {
+			value.setUnlocalizedName(Namer.buildUnlocalizedName(ItemNormalWand.PREFIX, key.name().toLowerCase()));
+			value.setRegistryName(Namer.buildToolRegistryName(ItemNormalWand.PREFIX, key.name().toLowerCase()));
 		});
 	}
 
@@ -90,7 +90,7 @@ public class ItemLoader {
 
 		registerRender(CRYSTAL);
 		registerRender(MAGIC_CRYSTAL);
-		WAND_MAP.entrySet().forEach(entry -> registerRender(entry.getValue()));
+		WAND_MAP.forEach((key, value) -> registerRender(value));
 	}
 
 	private void registerItem(Item item, String registryName) {

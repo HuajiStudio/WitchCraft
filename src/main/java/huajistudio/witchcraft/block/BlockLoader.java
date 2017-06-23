@@ -53,12 +53,19 @@ public class BlockLoader {
 			.setResistance(10.0F)
 			.setLightLevel(2.5F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Block CRYSTAL_CLUSTER = (new BlockCrystalCluster())
+			.setUnlocalizedName("crystalCluster")
+			.setHardness(5.0F)
+			.setResistance(10.0F)
+			.setLightLevel(2.5F)
+			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 
 	@Load(LoaderState.PREINITIALIZATION)
 	public void registerBlocks() {
 		registerBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore", "oreCrystal");
 		registerBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block", "blockCrystal");
 		registerBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block", "blockMagicCrystal");
+		registerBlock(CRYSTAL_CLUSTER, "crystal_cluster.json");
 	}
 
 	private void registerBlock(Block block, String registryName) {
