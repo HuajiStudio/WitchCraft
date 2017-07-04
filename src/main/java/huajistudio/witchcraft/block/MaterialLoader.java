@@ -2,6 +2,7 @@ package huajistudio.witchcraft.block;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialTransparent;
 
 import java.lang.reflect.Field;
 

@@ -4,10 +4,12 @@ import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
 import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -42,18 +44,18 @@ public class BlockLoader {
 			.setHardness(3.0F)
 			.setResistance(5.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Block CRYSTAL_BLOCK = (new Block(MaterialLoader.CRYSTAL))
+	public static final Block CRYSTAL_BLOCK = (new BlockCrystalBase())
 			.setUnlocalizedName("crystalBlock")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Block MAGIC_CRYSTAL_BLOCK = (new Block(MaterialLoader.CRYSTAL))
+	public static final Block MAGIC_CRYSTAL_BLOCK = (new BlockCrystalBase())
 			.setUnlocalizedName("magicCrystalBlock")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
 			.setLightLevel(2.5F)
 			.setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
-	public static final Block CRYSTAL_CLUSTER = (new BlockCrystalCluster())
+	public static final Block CRYSTAL_CLUSTER_BLOCK = (new BlockCrystalCluster())
 			.setUnlocalizedName("crystalCluster")
 			.setHardness(5.0F)
 			.setResistance(10.0F)
@@ -62,15 +64,19 @@ public class BlockLoader {
 
 	@Load(LoaderState.PREINITIALIZATION)
 	public void registerBlocks() {
-		registerBlock(BlockLoader.CRYSTAL_ORE, "crystal_ore", "oreCrystal");
-		registerBlock(BlockLoader.CRYSTAL_BLOCK, "crystal_block", "blockCrystal");
-		registerBlock(BlockLoader.MAGIC_CRYSTAL_BLOCK, "magic_crystal_block", "blockMagicCrystal");
-		registerBlock(CRYSTAL_CLUSTER, "crystal_cluster.json");
+		registerBlock(CRYSTAL_ORE, "crystal_ore", "oreCrystal");
+		registerBlock(CRYSTAL_BLOCK, "crystal_block", "blockCrystal");
+		registerBlock(MAGIC_CRYSTAL_BLOCK, "magic_crystal_block", "blockMagicCrystal");
+		//registerSingleBlock(CRYSTAL_CLUSTER_BLOCK, "crystal_cluster");
 	}
 
 	private void registerBlock(Block block, String registryName) {
 		GameRegistry.register(block.setRegistryName(registryName));
 		GameRegistry.register((new ItemBlock(block)).setRegistryName(registryName));
+	}
+
+	private void registerSingleBlock(Block block, String registryName) {
+		GameRegistry.register(block.setRegistryName(registryName));
 	}
 
 	private void registerBlock(Block block, String registryName, String oreDictName) {

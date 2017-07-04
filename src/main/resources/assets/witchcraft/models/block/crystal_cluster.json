@@ -1,10 +1,6 @@
 {
-	"variants": {
-		"facing=up": { "model": "crystal_cluster" },
-		"facing=down": { "model": "crystal_cluster", "x": 180 },
-		"facing=east": { "model": "crystal_cluster", "x": 90, "y": 90 },
-		"facing=west": { "model": "crystal_cluster", "x": 90, "y": 270 },
-		"facing=south": { "model": "crystal_cluster", "x": 90, "y": 180 },
-		"facing=north": { "model": "crystal_cluster", "x": 90 }
+	"parent": "block/cross",
+	"textures": {
+		"cross": "witchcraft:blocks/crystal_cluster"
 	}
 }

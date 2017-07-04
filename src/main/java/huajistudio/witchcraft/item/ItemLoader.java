@@ -87,6 +87,7 @@ public class ItemLoader {
 		registerRender(BlockLoader.CRYSTAL_ORE);
 		registerRender(BlockLoader.CRYSTAL_BLOCK);
 		registerRender(BlockLoader.MAGIC_CRYSTAL_BLOCK);
+		//registerRender(BlockLoader.CRYSTAL_CLUSTER_BLOCK);
 
 		registerRender(CRYSTAL);
 		registerRender(MAGIC_CRYSTAL);
