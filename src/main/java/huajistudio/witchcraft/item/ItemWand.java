@@ -51,7 +51,7 @@ public abstract class ItemWand extends ItemMagicToolBase {
 				return;
 		}
 		EntityFireball bullet = newBullet(worldIn, entityLiving);
-		WandHelper.initBulletHeading(bullet, entityLiving, 0.0F, 0.5F + EntityLightBall.getLightBallVelocity(result) + EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack),
+		WandHelper.initBulletHeading(bullet, entityLiving, 0.5F + EntityLightBall.getLightBallVelocity(result) + EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack),
 				1.0F);
 
 		stack.damageItem(1, entityLiving);

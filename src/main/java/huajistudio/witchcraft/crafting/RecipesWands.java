@@ -1,5 +1,6 @@
 package huajistudio.witchcraft.crafting;
 
+import huajistudio.witchcraft.item.ItemLightWand;
 import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.item.ItemNormalWand;
 import net.minecraft.init.Items;
@@ -13,8 +14,8 @@ class RecipesWands {
 	private final String[] recipePattern = new String[]{"#X#", " W ", " W "};
 
 	void addRecipes() {
-		ItemLoader.WAND_MAP.entrySet().forEach(entry -> {
-			ItemStack wandStack = new ItemStack(entry.getValue());
+		ItemLoader.WAND_MAP.forEach((key, value) -> {
+			ItemStack wandStack = new ItemStack(value);
 			NBTTagCompound tagCompound = wandStack.getTagCompound();
 			try {
 				if (tagCompound != null) {
@@ -27,10 +28,14 @@ class RecipesWands {
 			} catch (Exception ignored) {}
 			OreDictionary.getOres("gemMagicCrystal").forEach(gemEntry -> {
 				GameRegistry.addRecipe(wandStack, recipePattern,
-						'#', entry.getKey().getRepairItemStack(),
+						'#', key.getRepairItemStack(),
 						'X', gemEntry.getItem(),
 						'W', Items.STICK);
 			});
 		});
+		GameRegistry.addRecipe(new ItemStack(ItemLoader.LIGHT_WAND), recipePattern,
+				'#', ItemLoader.MAGIC_CRYSTAL,
+				'X', ItemLoader.LIGHT_CRYSTAL,
+				'W', Items.STICK);
 	}
 }

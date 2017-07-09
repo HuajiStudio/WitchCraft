@@ -35,6 +35,7 @@ public class ItemLoader {
 	public static final Item SOIL_CRYSTAL = (new Item()).setUnlocalizedName("soilCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item LIGHT_CRYSTAL = (new Item()).setUnlocalizedName("lightCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
 	public static final Item SHADOW_CRYSTAL = (new Item()).setUnlocalizedName("shadowCrystal").setCreativeTab(CreativeTabsLoader.WITCHCRAFT);
+	public static final Item METAL_WAND = (new ItemMetalWand()).setUnlocalizedName("metalWand");
 	public static final Item LIGHT_WAND = (new ItemLightWand()).setUnlocalizedName("lightWand");
 	public static final Map<ToolMaterial, ItemNormalWand> WAND_MAP = Maps.newHashMap();
 
@@ -66,6 +67,7 @@ public class ItemLoader {
 		registerItem(SOIL_CRYSTAL, "soil_crystal", "gemMagicCrystal");
 		registerItem(LIGHT_CRYSTAL, "light_crystal", "gemMagicCrystal");
 		registerItem(SHADOW_CRYSTAL, "shadow_crystal", "gemMagicCrystal");
+		registerItem(METAL_WAND, "metal_wand");
 		registerItem(LIGHT_WAND, "light_wand");
 		WAND_MAP.values().forEach(GameRegistry::register);
 		for (Field field : ItemLoader.class.getDeclaredFields()) {
@@ -91,6 +93,8 @@ public class ItemLoader {
 
 		registerRender(CRYSTAL);
 		registerRender(MAGIC_CRYSTAL);
+		registerRender(METAL_WAND);
+		registerRender(LIGHT_WAND);
 		WAND_MAP.forEach((key, value) -> registerRender(value));
 	}
 

@@ -14,6 +14,9 @@ item.wandDiamond.name=Diamond Wand
 item.wandGold.name=Golden Wand
 item.wandRedstone.name=Redstone Wand
 
+item.metalWand.name=Wand of Metal
+item.lightWand.name=Wand of Light
+
 itemGroup.witchCraft=Witch Craft
 
 enchantment.explosion=Explosion
