@@ -1,6 +1,8 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -11,35 +13,32 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class ItemMagicBook extends ItemMagicToolBase {
-	public enum UsingWay {
-		CLICK,
-		RELEASE
-	}
+	public void onUse(ItemStack stack, World world, EntityLivingBase entity, int charge) {}
 
-	protected abstract UsingWay getUsingWay();
-
-	public abstract void onUse();
+	public void onUse(EntityLivingBase entity, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {}
 
 	@Override
-	@Nonnull
-	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (getUsingWay() != UsingWay.RELEASE)
-			return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
-		ActionResult<ItemStack> result = WCEventFactory.onMagicBookChant(itemStackIn, worldIn, playerIn, hand);
-		if (result != null)
-			return result;
-		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
+		if (worldIn.isRemote || stack == null)
+			return;
+		boolean result = true;
+		if (entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entityLiving;
+			if (WCEventFactory.onMagicBookChant(stack, worldIn, player).getType() != EnumActionResult.SUCCESS)
+				result = false;
+		}
+		if (result)
+			onUse(stack, worldIn, entityLiving, getMaxItemUseDuration(stack) - timeLeft);
 	}
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (getUsingWay() != UsingWay.CLICK)
-			return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-		EnumActionResult result = WCEventFactory.onMagicBookChant(stack, worldIn, playerIn, hand).getType();
+		EnumActionResult result = WCEventFactory.onMagicBookChant(stack, worldIn, playerIn).getType();
 		if (result == EnumActionResult.SUCCESS)
-			onUse();
+			onUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		return result;
 	}
 }

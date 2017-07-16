@@ -38,7 +38,7 @@ public class WCEventFactory {
 	}
 
 	@SubscribeEvent
-	public static ActionResult<ItemStack> onMagicBookChant(ItemStack item, World world, EntityPlayer player, EnumHand hand) {
+	public static ActionResult<ItemStack> onMagicBookChant(ItemStack item, World world, EntityPlayer player) {
 		MagicBookChantEvent event = new MagicBookChantEvent(player, item, hand, world);
 		if (EVENT_BUS.post(event))
 			return new ActionResult<>(EnumActionResult.FAIL, item);
