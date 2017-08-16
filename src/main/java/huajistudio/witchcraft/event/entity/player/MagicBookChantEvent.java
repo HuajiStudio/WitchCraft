@@ -12,23 +12,17 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
  **/
 public class MagicBookChantEvent extends PlayerEvent {
 	private final ItemStack item;
-	private final EnumHand hand;
 	private final World world;
 	private ActionResult<ItemStack> action;
 
-	public MagicBookChantEvent(EntityPlayer player, ItemStack item, EnumHand hand, World world) {
+	public MagicBookChantEvent(EntityPlayer player, ItemStack item, World world) {
 		super(player);
 		this.item = item;
-		this.hand = hand;
 		this.world = world;
 	}
 
 	public ItemStack getItem() {
 		return item;
-	}
-
-	public EnumHand getHand() {
-		return hand;
 	}
 
 	public World getWorld() {
