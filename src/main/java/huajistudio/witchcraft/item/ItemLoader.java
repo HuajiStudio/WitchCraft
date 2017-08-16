@@ -9,8 +9,10 @@ import huajistudio.witchcraft.util.loader.GenItem;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
@@ -46,8 +48,10 @@ public class ItemLoader {
 				hasRedstoneTool = true;
 				break;
 			}
-		if (!hasRedstoneTool)
+		if (!hasRedstoneTool) {
 			EnumHelper.addToolMaterial("REDSTONE", 2, 512, 7.0F, 2.5F, 17);
+			ToolMaterial.valueOf("REDSTONE").setRepairItem(new ItemStack(Items.REDSTONE));
+		}
 		Lists.newArrayList(ToolMaterial.values()).forEach(toolMaterial -> WAND_MAP.put(toolMaterial, new ItemNormalWand(toolMaterial)));
 
 		WAND_MAP.forEach((key, value) -> {
