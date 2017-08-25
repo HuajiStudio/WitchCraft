@@ -12,6 +12,6 @@ public abstract class ItemMagicBookSummoner extends ItemMagicBook {
 
 	@Override
 	public void onUse(EntityLivingBase entity, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		world.spawnEntityInWorld(summoned(world, entity, pos, hand, facing, hitX, hitY, hitZ));
+		world.spawnEntity(summoned(world, entity, pos, hand, facing, hitX, hitY, hitZ));
 	}
 }

@@ -6,14 +6,12 @@ import huajistudio.witchcraft.entity.EntityLightBall;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
@@ -34,7 +32,7 @@ public class ItemNormalWand extends ItemWand {
 	public ItemNormalWand(ToolMaterial material) {
 		MATERIAL = material;
 		setMaxStackSize(1);
-		setMaxDamage(MathHelper.ceiling_float_int(material.getMaxUses() * 4.6125f));
+		setMaxDamage(MathHelper.ceil(material.getMaxUses() * 4.6125f));
 		ATTACK_DAMAGE = material.getDamageVsEntity();
 		//GL11.glBegin(GL11.GL_TRIANGLES);
 		//GL11.glVertex3i(0,0,0);
@@ -76,7 +74,7 @@ public class ItemNormalWand extends ItemWand {
 		// TODO add enchantment effects
 
 		stack.damageItem(1, player);
-		worldIn.spawnEntityInWorld(lightBall);
+		worldIn.spawnEntity(lightBall);
 		if (stack.getTagCompound() != null) {
 			NBTTagCompound compound = stack.getTagCompound();
 			int currentMagicAmount = stack.getTagCompound().getInteger("magicAmount") - (getMaxItemUseDuration(stack) - timeLeft);
@@ -84,7 +82,7 @@ public class ItemNormalWand extends ItemWand {
 				compound.setInteger("magicAmount", currentMagicAmount);
 			else {
 				compound.setInteger("magicAmount", 0);
-				player.addChatComponentMessage(new TextComponentTranslation("text.wand.recharge_needed"));
+				player.sendMessage(new TextComponentTranslation("text.wand.recharge_needed"));
 			}
 			stack.setTagCompound(compound);
 		}
@@ -92,7 +90,7 @@ public class ItemNormalWand extends ItemWand {
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
-		return MathHelper.ceiling_float_int(ToolMaterial.DIAMOND.getMaxUses() * 15.061f);
+		return MathHelper.ceil(ToolMaterial.DIAMOND.getMaxUses() * 15.061f);
 	}
 
 	public ToolMaterial getMaterial() {

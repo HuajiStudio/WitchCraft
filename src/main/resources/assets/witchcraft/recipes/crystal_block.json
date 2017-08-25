@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "witchcraft",
+  "pattern": [
+	"###",
+	"###",
+	"###"
+  ],
+  "key": {
+	"#": {
+	  "type": "forge:ore_dict",
+	  "ore": "gemCrystal"
+	}
+  },
+  "result": {
+	"item": "witchcraft:crystal_block"
+  }
+}

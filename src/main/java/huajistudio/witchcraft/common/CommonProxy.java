@@ -2,6 +2,7 @@ package huajistudio.witchcraft.common;
 
 import huajistudio.witchcraft.block.BlockLoader;
 import huajistudio.witchcraft.block.MaterialLoader;
+import huajistudio.witchcraft.capability.CapabilityMagic;
 import huajistudio.witchcraft.crafting.CraftingLoader;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLoader;
@@ -95,6 +96,7 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		configurationDir = event.getModConfigurationDirectory();
 		invokeForEvent(LoaderState.PREINITIALIZATION, event);
+		CapabilityMagic.register();
 	}
 
 	public void init(FMLInitializationEvent event) {

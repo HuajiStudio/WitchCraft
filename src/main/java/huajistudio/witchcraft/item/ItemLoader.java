@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -73,7 +73,7 @@ public class ItemLoader {
 		registerItem(SHADOW_CRYSTAL, "shadow_crystal", "gemMagicCrystal");
 		registerItem(METAL_WAND, "metal_wand");
 		registerItem(LIGHT_WAND, "light_wand");
-		WAND_MAP.values().forEach(GameRegistry::register);
+		WAND_MAP.values().forEach(ForgeRegistries.ITEMS::register);
 		for (Field field : ItemLoader.class.getDeclaredFields()) {
 			for (Annotation annotation : field.getDeclaredAnnotations()) {
 				if (annotation.annotationType().equals(GenItem.class)) {
@@ -103,7 +103,7 @@ public class ItemLoader {
 	}
 
 	private void registerItem(Item item, String registryName) {
-		GameRegistry.register(item.setRegistryName(registryName));
+		ForgeRegistries.ITEMS.register(item.setRegistryName(registryName));
 	}
 
 	private void registerItem(Item item, String registryName, String oreDictName) {

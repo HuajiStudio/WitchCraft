@@ -31,7 +31,8 @@ public abstract class ItemWand extends ItemMagicToolBase {
 
 	@Override
 	@Nonnull
-	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 		ActionResult<ItemStack> result = WCEventFactory.onWandNock(itemStackIn, worldIn, playerIn, hand);
 		if (result != null)
 			return result;
@@ -55,7 +56,7 @@ public abstract class ItemWand extends ItemMagicToolBase {
 				1.0F);
 
 		stack.damageItem(1, entityLiving);
-		worldIn.spawnEntityInWorld(bullet);
+		worldIn.spawnEntity(bullet);
 	}
 
 	@Override
@@ -68,4 +69,6 @@ public abstract class ItemWand extends ItemMagicToolBase {
 	public int getMaxItemUseDuration(ItemStack stack) {
 		return 72000;
 	}
+
+
 }

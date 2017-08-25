@@ -1,18 +1,13 @@
 package huajistudio.witchcraft.item;
 
-import com.google.common.collect.Multimap;
 import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -26,8 +21,8 @@ public abstract class ItemMagicToolBase extends Item {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		super.addInformation(stack, playerIn, tooltip, advanced);
-		tooltip.add("magic cost: " + getMagicCost());
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+		tooltip.add("Magic cost: " + getMagicCost());
 	}
 }

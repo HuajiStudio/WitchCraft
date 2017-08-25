@@ -7,26 +7,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CraftingLoader {
 	@Load(LoaderState.INITIALIZATION)
 	public void registerCrafting() {
 		new RecipesWands().addRecipes();
-
-		GameRegistry.addRecipe(new ShapedOreRecipe(
-				new ItemStack(BlockLoader.CRYSTAL_BLOCK), "###", "###", "###", '#', "gemCrystal"
-		));
-		GameRegistry.addRecipe(new ShapedOreRecipe(
-				new ItemStack(BlockLoader.MAGIC_CRYSTAL_BLOCK), "###", "###", "###", '#', "gemMagicCrystal"
-		));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(
-				new ItemStack(ItemLoader.CRYSTAL, 9), BlockLoader.CRYSTAL_BLOCK
-		));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(
-				new ItemStack(ItemLoader.MAGIC_CRYSTAL, 9), BlockLoader.MAGIC_CRYSTAL_BLOCK
-		));
 	}
 
 	@Load(LoaderState.INITIALIZATION)

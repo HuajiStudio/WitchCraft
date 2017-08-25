@@ -20,7 +20,7 @@ public class ItemMetalWand extends ItemWand {
 		return new EntityLightBall(world, shooter) {
 			@Override
 			protected void onImpact(@Nonnull RayTraceResult result) {
-				if (worldObj.isRemote)
+				if (world.isRemote)
 					return;
 				double x, y, z;
 				if (result.entityHit != null) {
@@ -32,7 +32,7 @@ public class ItemMetalWand extends ItemWand {
 					y = result.getBlockPos().getY();
 					z = result.getBlockPos().getZ();
 				}
-				worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, x, y, z, false));
+				world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, false));
 				this.setDead();
 			}
 		};

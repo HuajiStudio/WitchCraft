@@ -1,19 +1,14 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class ItemMagicBook extends ItemMagicToolBase {
 	public void onUse(ItemStack stack, World world, EntityLivingBase entity, int charge) {}
@@ -35,10 +30,11 @@ public abstract class ItemMagicBook extends ItemMagicToolBase {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		EnumActionResult result = WCEventFactory.onMagicBookChant(stack, worldIn, playerIn).getType();
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
+		EnumActionResult result = WCEventFactory.onMagicBookChant(stack, worldIn, player).getType();
 		if (result == EnumActionResult.SUCCESS)
-			onUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+			onUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		return result;
 	}
 }

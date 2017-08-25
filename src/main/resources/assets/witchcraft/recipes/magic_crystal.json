@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "witchcraft",
+  "ingredients": [
+	{
+	  "item": "witchcraft:magic_crystal_block"
+	}
+  ],
+  "result": {
+	"item": "witchcraft:magic_crystal",
+	"count": 9
+  }
+}

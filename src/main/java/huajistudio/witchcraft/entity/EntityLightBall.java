@@ -51,14 +51,14 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult result) {
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 		if (explosionStrength > 0) {
-			worldObj.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, true);
+			world.createExplosion(this, posX, posY, posZ, explosionStrength * 2.0F, true);
 		}
 		if (result.entityHit instanceof EntityLiving) {
 			result.entityHit.attackEntityFrom(WCDamageSource.lightBall, 3.0F);
-			float motionDist = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+			float motionDist = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 			if (motionDist > 0.0F)
 				result.entityHit.addVelocity(motionX * knockbackStrength * 0x1.333334p-1 / (double) motionDist, 0.1D, motionZ * knockbackStrength * 0x1.333334p-1 / (double) motionDist);
 		}
@@ -66,7 +66,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	}
 
 	@Override
-	public float getBrightness(float partialTicks) {
+	public float getBrightness() {
 		return 2.0F;
 	}
 
@@ -106,7 +106,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 	@Override
 	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy)
 	{
-		float f = MathHelper.sqrt_double(x * x + y * y + z * z);
+		float f = MathHelper.sqrt(x * x + y * y + z * z);
 		x = x / (double)f;
 		y = y / (double)f;
 		z = z / (double)f;
@@ -116,7 +116,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 		this.motionX = x;
 		this.motionY = y;
 		this.motionZ = z;
-		float f1 = MathHelper.sqrt_double(x * x + z * z);
+		float f1 = MathHelper.sqrt(x * x + z * z);
 		rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
 		rotationPitch = (float)(MathHelper.atan2(y, (double)f1) * (180D / Math.PI));
 		prevRotationYaw = rotationYaw;
@@ -125,7 +125,7 @@ public class EntityLightBall extends EntityFireball implements IProjectile {
 
 	@Override
 	public boolean canBeCollidedWith() {
-		return MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ) <= 0.7;
+		return MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ) <= 0.7;
 	}
 
 	@Override

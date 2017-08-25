@@ -1,15 +1,16 @@
 package huajistudio.witchcraft.enchantment;
 
 import huajistudio.witchcraft.WitchCraft;
+import huajistudio.witchcraft.item.ItemWand;
 import huajistudio.witchcraft.util.loader.Load;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.LoaderState;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class EnchantmentLoader {
-	public static final EnumEnchantmentType WAND_ENCHANTMENT_TYPE = EnumHelper.addEnchantmentType("WAND");
+	public static final EnumEnchantmentType WAND_ENCHANTMENT_TYPE = EnumHelper.addEnchantmentType("WAND", item -> item instanceof ItemWand);
 
 	public static final Enchantment EXPLOSION = new EnchantmentWand(Enchantment.Rarity.RARE) {
 		@Override
@@ -31,6 +32,6 @@ public class EnchantmentLoader {
 	}
 
 	private void registerEnchantment(Enchantment enchantment, String name) {
-		Enchantment.REGISTRY.register(id++, new ResourceLocation(WitchCraft.MODID, name), enchantment.setRegistryName(WitchCraft.MODID, name));
+		ForgeRegistries.ENCHANTMENTS.register(enchantment.setRegistryName(WitchCraft.MODID, name));
 	}
 }

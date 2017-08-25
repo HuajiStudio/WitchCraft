@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "witchcraft",
+  "pattern": [
+	"#X#",
+	" W ",
+	" W "
+  ],
+  "key": {
+	"#": {
+	  "item": "witchcraft:magic_crystal"
+	},
+	"X": {
+	  "item": "witchcraft:light_crystal"
+	},
+	"W": {
+	  "type": "forge:ore_dict",
+	  "ore": "stickWood"
+	}
+  },
+  "result": {
+	"item": "witchcraft:crystal_block"
+  }
+}

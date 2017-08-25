@@ -20,14 +20,14 @@ public final class WandHelper {
 			((IProjectile) bullet).setThrowableHeading(f1, f2, f3, velocity, inaccuracy);
 			return;
 		}
-		float x = MathHelper.sqrt_float(f1 * f1 + f2 * f2 + f3 * f3);
+		float x = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
 		f1 = f1 / x * velocity;
 		f2 = f2 / x * velocity;
 		f3 = f3 / x * velocity;
 		bullet.motionX = f1;
 		bullet.motionY = f2;
 		bullet.motionZ = f3;
-		x = MathHelper.sqrt_float(f1 * f1 + f3 * f3);
+		x = MathHelper.sqrt(f1 * f1 + f3 * f3);
 		bullet.rotationYaw = (float) (MathHelper.atan2(f1, f3) * PI_R_180);
 		bullet.rotationPitch = (float) (MathHelper.atan2(f2, x) * PI_R_180);
 

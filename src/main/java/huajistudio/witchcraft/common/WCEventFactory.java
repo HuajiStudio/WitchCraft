@@ -1,15 +1,20 @@
 package huajistudio.witchcraft.common;
 
+import huajistudio.witchcraft.WitchCraft;
+import huajistudio.witchcraft.capability.CapabilityMagic;
 import huajistudio.witchcraft.event.entity.player.MagicBookChantEvent;
 import huajistudio.witchcraft.event.entity.player.WandNockEvent;
 import huajistudio.witchcraft.event.entity.player.WandShootEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -43,5 +48,11 @@ public class WCEventFactory {
 		if (EVENT_BUS.post(event))
 			return new ActionResult<>(EnumActionResult.FAIL, item);
 		return event.getAction();
+	}
+
+	@SubscribeEvent
+	public static void attachWandStack(AttachCapabilitiesEvent<Entity> attachEvent) {
+		if (attachEvent.getObject() instanceof EntityPlayer)
+			attachEvent.addCapability(new ResourceLocation(WitchCraft.MODID, "wand_stats"), new CapabilityMagic.Provider());
 	}
 }

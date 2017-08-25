@@ -2,9 +2,9 @@ package huajistudio.witchcraft.client.render.entity;
 
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.EntityLightBall;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -27,7 +27,7 @@ public class RenderLightBall extends Render<EntityLightBall> {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scale(0.3125F, 0.3125F, 0.3125F);
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate((float)(renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 

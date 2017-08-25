@@ -57,7 +57,7 @@ public class WorldGenOre extends WorldGenerator {
 			int z = position.getZ() + rand.nextInt(16);
 			BlockPos pos = new BlockPos(x, y, z);
 
-			if (!biomeID.isEmpty() && !biomeID.contains(Biome.getIdForBiome(worldIn.getBiomeGenForCoords(pos))))
+			if (!biomeID.isEmpty() && !biomeID.contains(Biome.getIdForBiome(worldIn.getBiomeForCoordsBody(pos))))
 				return true;
 
 			gen.generate(worldIn, rand, pos);
