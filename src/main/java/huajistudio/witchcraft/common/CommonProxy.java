@@ -9,6 +9,8 @@ import huajistudio.witchcraft.entity.EntityLoader;
 import huajistudio.witchcraft.item.ItemLoader;
 import huajistudio.witchcraft.util.loader.Load;
 import huajistudio.witchcraft.world.gen.WorldGenListener;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.event.*;
 
@@ -16,10 +18,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CommonProxy {
 	public Class[] loaders = new Class[]{
@@ -97,6 +96,7 @@ public class CommonProxy {
 		configurationDir = event.getModConfigurationDirectory();
 		invokeForEvent(LoaderState.PREINITIALIZATION, event);
 		CapabilityMagic.register();
+		new WCEventFactory();
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -109,6 +109,14 @@ public class CommonProxy {
 
 	public void loadComplete(FMLLoadCompleteEvent event) {
 		invokeForEvent(LoaderState.AVAILABLE, event);
+	}
+
+	public void startServer(FMLServerStartingEvent event) {
+		try {
+			((List<ITickable>) MinecraftServer.class.getField("tickables").get(event.getServer())).add(new MagicTickable());
+		} catch (IllegalAccessException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private <T extends FMLStateEvent> void invokeForEvent(LoaderState state, T event) {

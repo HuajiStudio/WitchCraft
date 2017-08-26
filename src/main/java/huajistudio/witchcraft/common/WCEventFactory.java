@@ -2,6 +2,7 @@ package huajistudio.witchcraft.common;
 
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.capability.CapabilityMagic;
+import huajistudio.witchcraft.capability.MagicStats;
 import huajistudio.witchcraft.event.entity.player.MagicBookChantEvent;
 import huajistudio.witchcraft.event.entity.player.WandNockEvent;
 import huajistudio.witchcraft.event.entity.player.WandShootEvent;
@@ -52,7 +53,11 @@ public class WCEventFactory {
 
 	@SubscribeEvent
 	public static void attachWandStack(AttachCapabilitiesEvent<Entity> attachEvent) {
-		if (attachEvent.getObject() instanceof EntityPlayer)
+		if (attachEvent.getObject() instanceof EntityPlayer) {
 			attachEvent.addCapability(new ResourceLocation(WitchCraft.MODID, "wand_stats"), new CapabilityMagic.Provider());
+			MagicStats stats = attachEvent.getObject().getCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null);
+			stats.setAmount(10);
+			stats.setCapacity(20);
+		}
 	}
 }

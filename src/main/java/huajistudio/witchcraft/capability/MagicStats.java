@@ -1,8 +1,8 @@
 package huajistudio.witchcraft.capability;
 
 public interface MagicStats {
-	int getCapacity();
-	int getAmount();
-	void setCapacity(int capacity);
-	void setAmount(int amount);
+	double getCapacity();
+	double getAmount();
+	void setCapacity(double capacity);
+	void setAmount(double amount);
 }

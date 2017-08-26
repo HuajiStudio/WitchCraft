@@ -1,5 +1,7 @@
 package huajistudio.witchcraft.item;
 
+import huajistudio.witchcraft.capability.CapabilityMagic;
+import huajistudio.witchcraft.capability.MagicStats;
 import huajistudio.witchcraft.common.WCEventFactory;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
@@ -13,9 +15,7 @@ import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class ItemNormalWand extends ItemWand {
@@ -54,6 +54,12 @@ public class ItemNormalWand extends ItemWand {
 		if (!(entityLiving instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) entityLiving;
+
+		if (!player.hasCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null)) return;
+		MagicStats stats = player.getCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null);
+		if (stats.getAmount() >= getMagicCost()) stats.setAmount(stats.getAmount() - getMagicCost());
+		else if (!player.isCreative()) return;
+
 		int result = WCEventFactory.onWandShoot(stack, worldIn, player, getMaxItemUseDuration(stack) - timeLeft);
 		if (result < 0 || stack == null || worldIn.isRemote)
 			return;
@@ -75,17 +81,6 @@ public class ItemNormalWand extends ItemWand {
 
 		stack.damageItem(1, player);
 		worldIn.spawnEntity(lightBall);
-		if (stack.getTagCompound() != null) {
-			NBTTagCompound compound = stack.getTagCompound();
-			int currentMagicAmount = stack.getTagCompound().getInteger("magicAmount") - (getMaxItemUseDuration(stack) - timeLeft);
-			if (currentMagicAmount > 0)
-				compound.setInteger("magicAmount", currentMagicAmount);
-			else {
-				compound.setInteger("magicAmount", 0);
-				player.sendMessage(new TextComponentTranslation("text.wand.recharge_needed"));
-			}
-			stack.setTagCompound(compound);
-		}
 	}
 
 	@Override

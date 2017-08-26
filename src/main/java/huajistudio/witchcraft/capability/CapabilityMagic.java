@@ -13,33 +13,35 @@ import javax.annotation.Nullable;
 
 public interface CapabilityMagic {
 	@CapabilityInject(MagicStats.class)
-	Capability<MagicStats> CAPABILITY_WAND_STATS = null;
+	Capability<MagicStats> CAPABILITY_MAGIC_STATS = null;
 
 	static void register() {
 		CapabilityManager.INSTANCE.register(MagicStats.class, new Storage(), Implementation.class);
 	}
 
 	class Implementation implements MagicStats {
-		private int capacity;
-		private int amount;
+		private double capacity;
+		private double amount;
 
 		@Override
-		public int getCapacity() {
+		public double getCapacity() {
 			return capacity;
 		}
 
 		@Override
-		public void setCapacity(int capacity) {
+		public void setCapacity(double capacity) {
 			this.capacity = capacity;
 		}
 
 		@Override
-		public int getAmount() {
+		public double getAmount() {
 			return amount;
 		}
 
 		@Override
-		public void setAmount(int amount) {
+		public void setAmount(double amount) {
+			if (amount > capacity)
+				this.amount = capacity;
 			this.amount = amount;
 		}
 
@@ -56,8 +58,12 @@ public interface CapabilityMagic {
 
 		@Override
 		public int hashCode() {
-			int result = capacity;
-			result = 31 * result + amount;
+			int result;
+			long temp;
+			temp = Double.doubleToLongBits(capacity);
+			result = (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(amount);
+			result = 31 * result + (int) (temp ^ (temp >>> 32));
 			return result;
 		}
 	}
@@ -66,15 +72,15 @@ public interface CapabilityMagic {
 		@Override
 		public NBTBase writeNBT(Capability<MagicStats> capability, MagicStats instance, EnumFacing side) {
 			NBTTagCompound compound = new NBTTagCompound();
-			compound.setInteger("capacity", instance.getCapacity());
-			compound.setInteger("amount", instance.getAmount());
+			compound.setDouble("capacity", instance.getCapacity());
+			compound.setDouble("amount", instance.getAmount());
 			return compound;
 		}
 
 		@Override
 		public void readNBT(Capability<MagicStats> capability, MagicStats instance, EnumFacing side, NBTBase nbt) {
-			instance.setCapacity(((NBTTagCompound) nbt).getInteger("capacity"));
-			instance.setAmount(((NBTTagCompound) nbt).getInteger("amount"));
+			instance.setCapacity(((NBTTagCompound) nbt).getDouble("capacity"));
+			instance.setAmount(((NBTTagCompound) nbt).getDouble("amount"));
 		}
 	}
 	class Provider implements ICapabilitySerializable<NBTTagCompound> {
@@ -82,24 +88,24 @@ public interface CapabilityMagic {
 
 		@Override
 		public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-			return capability.equals(CAPABILITY_WAND_STATS);
+			return capability.equals(CAPABILITY_MAGIC_STATS);
 		}
 
 		@Nullable
 		@Override
 		@SuppressWarnings("unchecked")
 		public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-			return capability.equals(CAPABILITY_WAND_STATS) ? (T) stats : null;
+			return capability.equals(CAPABILITY_MAGIC_STATS) ? (T) stats : null;
 		}
 
 		@Override
 		public NBTTagCompound serializeNBT() {
-			return (NBTTagCompound) CAPABILITY_WAND_STATS.getStorage().writeNBT(CAPABILITY_WAND_STATS, stats, null);
+			return (NBTTagCompound) CAPABILITY_MAGIC_STATS.getStorage().writeNBT(CAPABILITY_MAGIC_STATS, stats, null);
 		}
 
 		@Override
 		public void deserializeNBT(NBTTagCompound nbt) {
-			CAPABILITY_WAND_STATS.getStorage().readNBT(CAPABILITY_WAND_STATS, stats, null, nbt);
+			CAPABILITY_MAGIC_STATS.getStorage().readNBT(CAPABILITY_MAGIC_STATS, stats, null, nbt);
 		}
 	}
 }

@@ -49,4 +49,9 @@ public class WitchCraft {
 	public void loadComplete(FMLLoadCompleteEvent event) {
 		proxy.loadComplete(event);
 	}
+
+	@EventHandler
+	public void startServer(FMLServerStartingEvent event) {
+		proxy.startServer(event);
+	}
 }
