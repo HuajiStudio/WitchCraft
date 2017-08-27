@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.event.*;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -113,7 +114,9 @@ public class CommonProxy {
 
 	public void startServer(FMLServerStartingEvent event) {
 		try {
-			((List<ITickable>) MinecraftServer.class.getField("tickables").get(event.getServer())).add(new MagicTickable());
+			Field field = MinecraftServer.class.getDeclaredField("tickables");
+			field.setAccessible(true);
+			((List<ITickable>) field.get(event.getServer())).add(new MagicTickable());
 		} catch (IllegalAccessException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
