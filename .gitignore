@@ -22,3 +22,8 @@ eclipse
 run
 *.hprof
 classes
+
+# neoforge
+repo
+src/generated/**/.cache
+.DS_Store

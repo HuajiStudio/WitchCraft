@@ -1,39 +1,39 @@
 package huajistudio.witchcraft.event.entity.player;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
  * @author sunday
  **/
-public class MagicBookChantEvent extends PlayerEvent {
+public class MagicBookChantEvent extends PlayerEvent implements ICancellableEvent {
 	private final ItemStack item;
-	private final World world;
-	private ActionResult<ItemStack> action;
+	private final Level level;
+	private InteractionResultHolder<ItemStack> action;
 
-	public MagicBookChantEvent(EntityPlayer player, ItemStack item, World world) {
+	public MagicBookChantEvent(Player player, ItemStack item, Level level) {
 		super(player);
 		this.item = item;
-		this.world = world;
+		this.level = level;
 	}
 
 	public ItemStack getItem() {
 		return item;
 	}
 
-	public World getWorld() {
-		return world;
+	public Level getLevel() {
+		return level;
 	}
 
-	public ActionResult<ItemStack> getAction() {
+	public InteractionResultHolder<ItemStack> getAction() {
 		return action;
 	}
 
-	public void setAction(ActionResult<ItemStack> action) {
+	public void setAction(InteractionResultHolder<ItemStack> action) {
 		this.action = action;
 	}
 }

@@ -1,24 +1,22 @@
 package huajistudio.witchcraft.creativetab;
 
-import huajistudio.witchcraft.enchantment.EnchantmentLoader;
+import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.item.ItemLoader;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nonnull;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CreativeTabsLoader {
-	public static final CreativeTabs WITCHCRAFT = new CreativeTabs(CreativeTabs.getNextID(), "witchCraft") {
-		@Override
-		@Nonnull
-		public ItemStack getTabIconItem() {
-			return new ItemStack(ItemLoader.CRYSTAL);
-		}
+	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
+			DeferredRegister.create(Registries.CREATIVE_MODE_TAB, WitchCraft.MODID);
 
-		@Override
-		public EnumEnchantmentType[] getRelevantEnchantmentTypes() {
-			return new EnumEnchantmentType[]{EnchantmentLoader.WAND_ENCHANTMENT_TYPE};
-		}
-	};
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> WITCHCRAFT = CREATIVE_MODE_TABS.register("witchcraft",
+			() -> CreativeModeTab.builder()
+					.title(Component.translatable("itemGroup.witchCraft"))
+					.icon(() -> new ItemStack(ItemLoader.CRYSTAL.get()))
+					.displayItems((parameters, output) -> ItemLoader.ITEMS.getEntries().forEach(item -> output.accept(item.get())))
+					.build());
 }

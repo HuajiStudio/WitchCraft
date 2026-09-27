@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "witchcraft",
+  "pattern": [
+    "#X#",
+    " W ",
+    " W "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "X": {
+      "tag": "c:gems/magic_crystal"
+    },
+    "W": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "result": {
+    "id": "witchcraft:golden_wand",
+    "count": 1
+  }
+}

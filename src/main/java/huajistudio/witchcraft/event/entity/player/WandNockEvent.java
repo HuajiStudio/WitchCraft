@@ -1,50 +1,50 @@
 package huajistudio.witchcraft.event.entity.player;
 
-import huajistudio.witchcraft.common.WCEventFactory;
-import huajistudio.witchcraft.item.ItemNormalWand;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import huajistudio.witchcraft.item.ItemWand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
  * WandNockEvent is fired when a player begins using a wand.
  * This event is fired whenever a player begins using a wand in
- * {@link ItemNormalWand#onItemRightClick(ItemStack, World, EntityPlayer, EnumHand)}.
- * This event is fired on the {@link WCEventFactory#EVENT_BUS}
+ * {@link ItemWand#use(Level, Player, InteractionHand)}.
+ * This event is fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}
  **/
-public class WandNockEvent extends PlayerEvent {
+public class WandNockEvent extends PlayerEvent implements ICancellableEvent {
 	private final ItemStack wand;
-	private final EnumHand hand;
-	private final World world;
-	private ActionResult<ItemStack> action;
+	private final InteractionHand hand;
+	private final Level level;
+	private InteractionResultHolder<ItemStack> action;
 
-	public WandNockEvent(EntityPlayer player, ItemStack wand, EnumHand hand, World world) {
+	public WandNockEvent(Player player, ItemStack wand, InteractionHand hand, Level level) {
 		super(player);
 		this.wand = wand;
 		this.hand = hand;
-		this.world = world;
+		this.level = level;
 	}
 
 	public ItemStack getWand() {
 		return wand;
 	}
 
-	public EnumHand getHand() {
+	public InteractionHand getHand() {
 		return hand;
 	}
 
-	public World getWorld() {
-		return world;
+	public Level getLevel() {
+		return level;
 	}
 
-	public ActionResult<ItemStack> getAction() {
+	public InteractionResultHolder<ItemStack> getAction() {
 		return action;
 	}
 
-	public void setAction(ActionResult<ItemStack> action) {
+	public void setAction(InteractionResultHolder<ItemStack> action) {
 		this.action = action;
 	}
 }

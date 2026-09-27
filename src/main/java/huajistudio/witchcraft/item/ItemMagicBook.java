@@ -1,40 +1,42 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.common.WCEventFactory;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
 public abstract class ItemMagicBook extends ItemMagicToolBase {
-	public void onUse(ItemStack stack, World world, EntityLivingBase entity, int charge) {}
+	public ItemMagicBook() {
+		super(new Properties());
+	}
 
-	public void onUse(EntityLivingBase entity, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {}
+	public void onUse(ItemStack stack, Level level, LivingEntity entity, int charge) {}
+
+	public void onUse(UseOnContext context) {}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-		if (worldIn.isRemote || stack == null)
+	public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+		if (level.isClientSide)
 			return;
-		boolean result = true;
-		if (entityLiving instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entityLiving;
-			if (WCEventFactory.onMagicBookChant(stack, worldIn, player).getType() != EnumActionResult.SUCCESS)
-				result = false;
-		}
-		if (result)
-			onUse(stack, worldIn, entityLiving, getMaxItemUseDuration(stack) - timeLeft);
+		if (!(entity instanceof Player player) || chant(stack, level, player) == InteractionResult.SUCCESS)
+			onUse(stack, level, entity, getUseDuration(stack, entity) - timeLeft);
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getHeldItem(hand);
-		EnumActionResult result = WCEventFactory.onMagicBookChant(stack, worldIn, player).getType();
-		if (result == EnumActionResult.SUCCESS)
-			onUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+	public InteractionResult useOn(UseOnContext context) {
+		Player player = context.getPlayer();
+		InteractionResult result = player == null ? InteractionResult.SUCCESS : chant(context.getItemInHand(), context.getLevel(), player);
+		if (result == InteractionResult.SUCCESS)
+			onUse(context);
 		return result;
+	}
+
+	private static InteractionResult chant(ItemStack stack, Level level, Player player) {
+		InteractionResultHolder<ItemStack> result = WCEventFactory.onMagicBookChant(stack, level, player);
+		return result == null ? InteractionResult.SUCCESS : result.getResult();
 	}
 }

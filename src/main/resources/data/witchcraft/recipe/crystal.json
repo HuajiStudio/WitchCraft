@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "witchcraft",
+  "ingredients": [
+    {
+      "item": "witchcraft:crystal_block"
+    }
+  ],
+  "result": {
+    "id": "witchcraft:crystal",
+    "count": 9
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "witchcraft",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "c:gems/magic_crystal"
+    }
+  },
+  "result": {
+    "id": "witchcraft:magic_crystal_block",
+    "count": 1
+  }
+}

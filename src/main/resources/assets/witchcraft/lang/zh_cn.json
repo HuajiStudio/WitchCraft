@@ -1,0 +1,12 @@
+{
+  "block.witchcraft.crystal_ore": "水晶矿",
+  "block.witchcraft.crystal_block": "水晶块",
+  "block.witchcraft.magic_crystal_block": "魔法水晶块",
+
+  "item.witchcraft.crystal": "水晶",
+  "item.witchcraft.magic_crystal": "魔法水晶",
+
+  "itemGroup.witchCraft": "巫术",
+
+  "text.wand.recharge_needed": "魔法值已耗尽，请及时充能！"
+}

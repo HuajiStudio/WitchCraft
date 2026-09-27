@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "witchcraft:crystal_block"
+  },
+  "result": {
+    "id": "witchcraft:magic_crystal_block"
+  },
+  "experience": 20.0,
+  "cookingtime": 200
+}

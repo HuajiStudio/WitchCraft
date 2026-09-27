@@ -1,63 +1,50 @@
 package huajistudio.witchcraft.common;
 
-import huajistudio.witchcraft.WitchCraft;
-import huajistudio.witchcraft.capability.CapabilityMagic;
-import huajistudio.witchcraft.capability.MagicStats;
 import huajistudio.witchcraft.event.entity.player.MagicBookChantEvent;
 import huajistudio.witchcraft.event.entity.player.WandNockEvent;
 import huajistudio.witchcraft.event.entity.player.WandShootEvent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.fml.common.eventhandler.EventBus;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.NeoForge;
 
-public class WCEventFactory {
-	public static final EventBus EVENT_BUS = new EventBus();
+import javax.annotation.Nullable;
 
-	public WCEventFactory() {
-		MinecraftForge.EVENT_BUS.register(this);
-		EVENT_BUS.register(this);
-	}
-
-	@SubscribeEvent
-	public static ActionResult<ItemStack> onWandNock(ItemStack item, World world, EntityPlayer player, EnumHand hand) {
-		WandNockEvent event = new WandNockEvent(player, item, hand, world);
-		if (EVENT_BUS.post(event))
-			return new ActionResult<>(EnumActionResult.FAIL, item);
+/**
+ * Fires the WitchCraft events on {@link NeoForge#EVENT_BUS}.
+ */
+public final class WCEventFactory {
+	/**
+	 * @return the result set by a listener, or {@code null} if the wand should be used as usual
+	 */
+	@Nullable
+	public static InteractionResultHolder<ItemStack> onWandNock(ItemStack item, Level level, Player player, InteractionHand hand) {
+		WandNockEvent event = NeoForge.EVENT_BUS.post(new WandNockEvent(player, item, hand, level));
+		if (event.isCanceled())
+			return InteractionResultHolder.fail(item);
 		return event.getAction();
 	}
 
-	@SubscribeEvent
-	public static int onWandShoot(ItemStack item, World world, EntityPlayer player, int charge) {
-		WandShootEvent event = new WandShootEvent(player, item, world, charge);
-		if (EVENT_BUS.post(event))
+	/**
+	 * @return the charge to shoot with, or -1 if the shot was cancelled
+	 */
+	public static int onWandShoot(ItemStack item, Level level, Player player, int charge) {
+		WandShootEvent event = NeoForge.EVENT_BUS.post(new WandShootEvent(player, item, level, charge));
+		if (event.isCanceled())
 			return -1;
 		return event.getCharge();
 	}
 
-	@SubscribeEvent
-	public static ActionResult<ItemStack> onMagicBookChant(ItemStack item, World world, EntityPlayer player) {
-		MagicBookChantEvent event = new MagicBookChantEvent(player, item, world);
-		if (EVENT_BUS.post(event))
-			return new ActionResult<>(EnumActionResult.FAIL, item);
+	/**
+	 * @return the result set by a listener, or {@code null} if the book should be chanted as usual
+	 */
+	@Nullable
+	public static InteractionResultHolder<ItemStack> onMagicBookChant(ItemStack item, Level level, Player player) {
+		MagicBookChantEvent event = NeoForge.EVENT_BUS.post(new MagicBookChantEvent(player, item, level));
+		if (event.isCanceled())
+			return InteractionResultHolder.fail(item);
 		return event.getAction();
-	}
-
-	@SubscribeEvent
-	public static void attachWandStack(AttachCapabilitiesEvent<Entity> attachEvent) {
-		if (attachEvent.getObject() instanceof EntityPlayer) {
-			attachEvent.addCapability(new ResourceLocation(WitchCraft.MODID, "wand_stats"), new CapabilityMagic.Provider());
-			MagicStats stats = attachEvent.getObject().getCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null);
-			stats.setAmount(10);
-			stats.setCapacity(20);
-		}
 	}
 }

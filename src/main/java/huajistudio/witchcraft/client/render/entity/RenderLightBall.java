@@ -1,56 +1,59 @@
 package huajistudio.witchcraft.client.render.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.EntityLightBall;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 
-import javax.annotation.Nonnull;
+/**
+ * Renders the light ball as a fully lit sprite that always faces the camera.
+ */
+public class RenderLightBall extends EntityRenderer<EntityLightBall> {
+	private static final ResourceLocation LIGHTBALL_TEXTURE = WitchCraft.id("textures/entity/lightball.png");
+	private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(LIGHTBALL_TEXTURE);
 
-public class RenderLightBall extends Render<EntityLightBall> {
-	private static final ResourceLocation LIGHTBALL_TEXTURE = new ResourceLocation(WitchCraft.MODID + ":textures/entity/lightball.png");
-
-	public RenderLightBall(RenderManager renderManager) {
-		super(renderManager);
+	public RenderLightBall(EntityRendererProvider.Context context) {
+		super(context);
 	}
 
 	@Override
-	public void doRender(@Nonnull EntityLightBall entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		GlStateManager.pushMatrix();
-		bindEntityTexture(entity);
-		GlStateManager.translate((float)x, (float)y, (float)z);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.scale(0.3125F, 0.3125F, 0.3125F);
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder vertexbuffer = tessellator.getBuffer();
-		GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate((float)(renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
-		vertexbuffer.pos(-0.5D, -0.25D, 0.0D).tex(0.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-		vertexbuffer.pos(0.5D, -0.25D, 0.0D).tex(1.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-		vertexbuffer.pos(0.5D, 0.75D, 0.0D).tex(1.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-		vertexbuffer.pos(-0.5D, 0.75D, 0.0D).tex(0.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-		tessellator.draw();
-
-		if (renderOutlines) {
-			GlStateManager.disableOutlineMode();
-			GlStateManager.disableColorMaterial();
-		}
-
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	protected int getBlockLightLevel(EntityLightBall entity, BlockPos pos) {
+		return 15;
 	}
 
 	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityLightBall entity) {
+	public void render(EntityLightBall entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		poseStack.pushPose();
+		poseStack.scale(0.3125F, 0.3125F, 0.3125F);
+		poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
+		PoseStack.Pose pose = poseStack.last();
+		VertexConsumer consumer = buffer.getBuffer(RENDER_TYPE);
+		vertex(consumer, pose, packedLight, -0.5F, -0.25F, 0.0F, 1.0F);
+		vertex(consumer, pose, packedLight, 0.5F, -0.25F, 1.0F, 1.0F);
+		vertex(consumer, pose, packedLight, 0.5F, 0.75F, 1.0F, 0.0F);
+		vertex(consumer, pose, packedLight, -0.5F, 0.75F, 0.0F, 0.0F);
+		poseStack.popPose();
+		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+	}
+
+	private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, int packedLight, float x, float y, float u, float v) {
+		consumer.addVertex(pose, x, y, 0.0F)
+				.setColor(-1)
+				.setUv(u, v)
+				.setOverlay(OverlayTexture.NO_OVERLAY)
+				.setLight(packedLight)
+				.setNormal(pose, 0.0F, 1.0F, 0.0F);
+	}
+
+	@Override
+	public ResourceLocation getTextureLocation(EntityLightBall entity) {
 		return LIGHTBALL_TEXTURE;
 	}
 }

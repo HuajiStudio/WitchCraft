@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-	"layer0": "witchcraft:items/redstone_wand"
+	"layer0": "witchcraft:item/redstone_wand"
   }
 }

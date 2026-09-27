@@ -1,9 +1,10 @@
 package huajistudio.witchcraft.item;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntityWitherSkull;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.WitherSkull;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class ItemWitherWand extends ItemWand {
 	@Override
@@ -12,7 +13,7 @@ public class ItemWitherWand extends ItemWand {
 	}
 
 	@Override
-	public EntityFireball newBullet(World world, EntityLivingBase shooter) {
-		return new EntityWitherSkull(world, shooter, 0, 0, 0);
+	public AbstractHurtingProjectile newBullet(Level level, LivingEntity shooter) {
+		return new WitherSkull(level, shooter, Vec3.ZERO);
 	}
 }

@@ -1,18 +1,32 @@
 package huajistudio.witchcraft.block;
 
-import net.minecraft.block.BlockBreakable;
-import net.minecraft.util.BlockRenderLayer;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.block.HalfTransparentBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 
-import javax.annotation.Nonnull;
+/**
+ * A translucent crystal block. The translucent render type is set in its block model.
+ */
+public class BlockCrystalBase extends HalfTransparentBlock {
+	public static final MapCodec<BlockCrystalBase> CODEC = simpleCodec(BlockCrystalBase::new);
 
-public class BlockCrystalBase extends BlockBreakable {
-	public BlockCrystalBase() {
-		super(MaterialLoader.CRYSTAL, false);
+	public BlockCrystalBase(Properties properties) {
+		super(properties);
 	}
 
-	@Nonnull
+	public static Properties crystalProperties() {
+		return BlockBehaviour.Properties.of()
+				.mapColor(MapColor.COLOR_PURPLE)
+				.noOcclusion()
+				.isValidSpawn((state, level, pos, entityType) -> false)
+				.isRedstoneConductor((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos) -> false);
+	}
+
 	@Override
-	public BlockRenderLayer getBlockLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
+	protected MapCodec<? extends BlockCrystalBase> codec() {
+		return CODEC;
 	}
 }

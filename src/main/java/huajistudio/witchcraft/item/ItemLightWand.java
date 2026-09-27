@@ -1,16 +1,14 @@
 package huajistudio.witchcraft.item;
 
 import huajistudio.witchcraft.entity.EntityLightBall;
-import net.minecraft.entity.EntityAreaEffectCloud;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * @author sunday
@@ -22,21 +20,22 @@ public class ItemLightWand extends ItemWand {
 	}
 
 	@Override
-	public EntityFireball newBullet(World world, EntityLivingBase shooter) {
-		return new EntityLightBall(world, shooter) {
+	public AbstractHurtingProjectile newBullet(Level level, LivingEntity shooter) {
+		return new EntityLightBall(level, shooter) {
 			@Override
-			protected void onImpact(@Nonnull RayTraceResult result) {
-				if (world.isRemote)
+			protected void onHit(HitResult result) {
+				if (level().isClientSide)
 					return;
-				EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(world, posX, posY, posZ);
-				entityareaeffectcloud.setOwner(shootingEntity);
-				entityareaeffectcloud.setParticle(EnumParticleTypes.ENCHANTMENT_TABLE);
-				entityareaeffectcloud.setRadius(75.0F);
-				entityareaeffectcloud.setDuration(2400);
-				entityareaeffectcloud.setRadiusPerTick((7.0F - entityareaeffectcloud.getRadius()) / (float)entityareaeffectcloud.getDuration());
-				entityareaeffectcloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, 2400, 1));
-				this.world.spawnEntity(entityareaeffectcloud);
-				this.setDead();
+				AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+				if (getOwner() instanceof LivingEntity owner)
+					cloud.setOwner(owner);
+				cloud.setParticle(ParticleTypes.ENCHANT);
+				cloud.setRadius(75.0F);
+				cloud.setDuration(2400);
+				cloud.setRadiusPerTick((7.0F - cloud.getRadius()) / (float) cloud.getDuration());
+				cloud.addEffect(new MobEffectInstance(MobEffects.HARM, 2400, 1));
+				level().addFreshEntity(cloud);
+				discard();
 			}
 		};
 	}

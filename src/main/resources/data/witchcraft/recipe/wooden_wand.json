@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "witchcraft",
+  "pattern": [
+    "#X#",
+    " W ",
+    " W "
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "X": {
+      "tag": "c:gems/magic_crystal"
+    },
+    "W": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "result": {
+    "id": "witchcraft:wooden_wand",
+    "count": 1
+  }
+}

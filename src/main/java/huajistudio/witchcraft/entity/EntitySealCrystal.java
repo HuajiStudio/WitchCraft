@@ -1,37 +1,37 @@
 package huajistudio.witchcraft.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 
 public class EntitySealCrystal extends Entity {
 	public int innerRotation;
 
-	public EntitySealCrystal(World world) {
-		super(world);
-		preventEntitySpawning = true;
-		innerRotation = rand.nextInt(100000);
+	public EntitySealCrystal(EntityType<? extends EntitySealCrystal> type, Level level) {
+		super(type, level);
+		blocksBuilding = true;
+		innerRotation = random.nextInt(100000);
 	}
 
-	public EntitySealCrystal(World world, double x, double y, double z) {
-		this(world);
-		setPosition(x, y, z);
-	}
-
-	@Override
-	protected void entityInit() {
-
+	public EntitySealCrystal(EntityType<? extends EntitySealCrystal> type, Level level, double x, double y, double z) {
+		this(type, level);
+		setPos(x, y, z);
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditionalSaveData(CompoundTag compound) {
+
+	}
+
+	@Override
+	protected void addAdditionalSaveData(CompoundTag compound) {
 
 	}
 }

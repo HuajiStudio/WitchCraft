@@ -1,0 +1,31 @@
+{
+  "attribute.name.generic.magicCost": "Magic Cost",
+
+  "block.witchcraft.crystal_ore": "Crystal Ore",
+  "block.witchcraft.crystal_block": "Crystal Block",
+  "block.witchcraft.magic_crystal_block": "Magic Crystal Block",
+
+  "item.witchcraft.crystal": "Crystal",
+  "item.witchcraft.magic_crystal": "Magic Crystal",
+
+  "item.witchcraft.iron_wand": "Iron Wand",
+  "item.witchcraft.wooden_wand": "Wooden Wand",
+  "item.witchcraft.stone_wand": "Stone Wand",
+  "item.witchcraft.diamond_wand": "Diamond Wand",
+  "item.witchcraft.golden_wand": "Golden Wand",
+  "item.witchcraft.redstone_wand": "Redstone Wand",
+
+  "item.witchcraft.metal_wand": "Wand of Metal",
+  "item.witchcraft.light_wand": "Wand of Light",
+
+  "entity.witchcraft.light_ball": "Light Ball",
+  "death.attack.lightBall": "%1$s was struck by a light ball",
+  "death.attack.lightBall.player": "%1$s was struck by a light ball shot by %2$s",
+
+  "itemGroup.witchCraft": "Witch Craft",
+
+  "enchantment.witchcraft.explosion": "Explosion",
+  "enchantment.witchcraft.stable_lightball": "Stable Lightball",
+
+  "text.wand.recharge_needed": "Magic point was exhausted, please recharge ASAP!"
+}

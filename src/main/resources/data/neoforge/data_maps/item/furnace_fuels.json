@@ -1,0 +1,10 @@
+{
+  "values": {
+    "witchcraft:magic_crystal": {
+      "burn_time": 51200
+    },
+    "witchcraft:magic_crystal_block": {
+      "burn_time": 512000
+    }
+  }
+}

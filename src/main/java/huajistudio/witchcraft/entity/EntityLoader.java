@@ -1,38 +1,19 @@
 package huajistudio.witchcraft.entity;
 
 import huajistudio.witchcraft.WitchCraft;
-import huajistudio.witchcraft.client.render.entity.EntityRenderFactory;
-import huajistudio.witchcraft.client.render.entity.RenderLightBall;
-import huajistudio.witchcraft.util.loader.Load;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.LoaderState;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class EntityLoader {
-	private static int nextID = 0;
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, WitchCraft.MODID);
 
-	@SideOnly(Side.CLIENT)
-	public void registerRenders() {
-		registerRender(EntityLightBall.class, RenderLightBall.class);
-	}
-
-	@Load(LoaderState.PREINITIALIZATION)
-	public void registerEntities() {
-		registerEntity(EntityLightBall.class, "LightBall", 64, 10, true);
-	}
-
-	private <T extends Entity> void registerEntity(Class<T> entityClass, String name,
-	                                   int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
-		EntityRegistry.registerModEntity(new ResourceLocation(WitchCraft.MODID, name), entityClass, name, nextID++, WitchCraft.instance,
-				trackingRange, updateFrequency, sendsVelocityUpdates);
-	}
-
-	private <T extends Entity> void registerRender(Class<T> entityClass, Class<? extends Render<T>> render) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, new EntityRenderFactory<T>(render));
-	}
+	public static final DeferredHolder<EntityType<?>, EntityType<EntityLightBall>> LIGHT_BALL = ENTITY_TYPES.register("light_ball",
+			() -> EntityType.Builder.<EntityLightBall>of(EntityLightBall::new, MobCategory.MISC)
+					.sized(0.3125F, 0.3125F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build("light_ball"));
 }

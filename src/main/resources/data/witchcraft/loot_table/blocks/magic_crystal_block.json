@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "witchcraft:blocks/magic_crystal_block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "witchcraft:magic_crystal_block"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

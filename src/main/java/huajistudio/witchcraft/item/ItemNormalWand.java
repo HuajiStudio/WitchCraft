@@ -1,95 +1,83 @@
 package huajistudio.witchcraft.item;
 
-import huajistudio.witchcraft.capability.CapabilityMagic;
-import huajistudio.witchcraft.capability.MagicStats;
+import huajistudio.witchcraft.attachment.AttachmentLoader;
+import huajistudio.witchcraft.attachment.MagicStats;
 import huajistudio.witchcraft.common.WCEventFactory;
 import huajistudio.witchcraft.enchantment.EnchantmentLoader;
 import huajistudio.witchcraft.entity.EntityLightBall;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Enchantments;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import huajistudio.witchcraft.network.MagicStatsPayload;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ItemNormalWand extends ItemWand {
-	@SuppressWarnings("all")
 	public static final String PREFIX = "wand";
 
-	@SuppressWarnings("all")
-	private final float ATTACK_DAMAGE;
+	private final Tier material;
 
-	@SuppressWarnings("all")
-	private final ToolMaterial MATERIAL;
-
-	@SuppressWarnings("all")
-	public ItemNormalWand(ToolMaterial material) {
-		MATERIAL = material;
-		setMaxStackSize(1);
-		setMaxDamage(MathHelper.ceil(material.getMaxUses() * 4.6125f));
-		ATTACK_DAMAGE = material.getDamageVsEntity();
-		//GL11.glBegin(GL11.GL_TRIANGLES);
-		//GL11.glVertex3i(0,0,0);
+	public ItemNormalWand(Tier material) {
+		super(new Properties().stacksTo(1).durability(Mth.ceil(material.getUses() * 4.6125f)));
+		this.material = material;
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
-		Block block = state.getBlock();
-		if (block == Blocks.WEB)
+	public float getDestroySpeed(ItemStack stack, BlockState state) {
+		if (state.is(Blocks.COBWEB))
 			return 15.0F;
-		else {
-			Material material = state.getMaterial();
-			return material != Material.PLANTS && material != Material.VINE && material != Material.CORAL && material != Material.LEAVES && material != Material.GOURD ? 1.0F : 1.5F;
-		}
+		return state.is(BlockTags.SWORD_EFFICIENT) ? 1.5F : 1.0F;
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-		if (!(entityLiving instanceof EntityPlayer))
+	public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+		if (!(entity instanceof Player player) || level.isClientSide)
 			return;
-		EntityPlayer player = (EntityPlayer) entityLiving;
 
-		if (!player.hasCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null)) return;
-		MagicStats stats = player.getCapability(CapabilityMagic.CAPABILITY_MAGIC_STATS, null);
+		MagicStats stats = player.getData(AttachmentLoader.MAGIC_STATS);
 		if (stats.getAmount() >= getMagicCost()) stats.setAmount(stats.getAmount() - getMagicCost());
 		else if (!player.isCreative()) return;
+		if (player instanceof ServerPlayer serverPlayer)
+			MagicStatsPayload.sync(serverPlayer);
 
-		int result = WCEventFactory.onWandShoot(stack, worldIn, player, getMaxItemUseDuration(stack) - timeLeft);
-		if (result < 0 || stack == null || worldIn.isRemote)
+		int result = WCEventFactory.onWandShoot(stack, level, player, getUseDuration(stack, entity) - timeLeft);
+		if (result < 0)
 			return;
-		EntityLightBall lightBall = new EntityLightBall(worldIn, player);
-		lightBall.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F,
-				0.5F + EntityLightBall.getLightBallVelocity(result) + EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack),
-				1.0F);
+		EntityLightBall lightBall = new EntityLightBall(level, player);
+		lightBall.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F,
+				0.5F + EntityLightBall.getLightBallVelocity(result) + EnchantmentLoader.getLevel(level, Enchantments.POWER, stack),
+				0.0F);
 
 		// knockback
-		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+		int k = EnchantmentLoader.getLevel(level, Enchantments.PUNCH, stack);
 		if (k > 0)
 			lightBall.setKnockbackStrength(k);
-		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.EXPLOSION, stack);
+		k = EnchantmentLoader.getLevel(level, EnchantmentLoader.EXPLOSION, stack);
 		if (k > 0)
 			lightBall.setExplosionStrength(k);
-		k = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.STABLE_LIGHTBALL, stack);
+		k = EnchantmentLoader.getLevel(level, EnchantmentLoader.STABLE_LIGHTBALL, stack);
 		lightBall.setLife((k + 1) * 100);
 		// TODO add enchantment effects
 
-		stack.damageItem(1, player);
-		worldIn.spawnEntity(lightBall);
+		stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+		level.addFreshEntity(lightBall);
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return MathHelper.ceil(ToolMaterial.DIAMOND.getMaxUses() * 15.061f);
+	public int getUseDuration(ItemStack stack, LivingEntity entity) {
+		return Mth.ceil(Tiers.DIAMOND.getUses() * 15.061f);
 	}
 
-	public ToolMaterial getMaterial() {
-		return MATERIAL;
+	public Tier getMaterial() {
+		return material;
 	}
 
 	@Override
@@ -98,7 +86,7 @@ public class ItemNormalWand extends ItemWand {
 	}
 
 	@Override
-	public EntityFireball newBullet(World world, EntityLivingBase shooter) {
-		return new EntityLightBall(world, shooter);
+	public AbstractHurtingProjectile newBullet(Level level, LivingEntity shooter) {
+		return new EntityLightBall(level, shooter);
 	}
 }

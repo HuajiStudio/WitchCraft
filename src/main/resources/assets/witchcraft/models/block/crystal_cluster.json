@@ -1,6 +1,6 @@
 {
 	"parent": "block/cross",
 	"textures": {
-		"cross": "witchcraft:blocks/crystal_cluster"
+		"cross": "witchcraft:block/crystal_cluster"
 	}
 }

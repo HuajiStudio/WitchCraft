@@ -1,5 +1,5 @@
 {
   "variants": {
-	"normal": { "model": "witchcraft:crystal_block" }
+	"": { "model": "witchcraft:block/crystal_block" }
   }
 }

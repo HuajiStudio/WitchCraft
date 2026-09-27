@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * Configure the WitchCraft here.
  * You should call the function after
- * {@link net.minecraftforge.fml.common.event.FMLPreInitializationEvent FMLPreInitializationEvent}.
+ * {@link net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent FMLCommonSetupEvent}.
  */
 @SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
 public class WCConfiguration implements Flushable {

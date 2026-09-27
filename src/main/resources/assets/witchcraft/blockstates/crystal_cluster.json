@@ -1,10 +1,10 @@
 {
 	"variants": {
-		"facing=up": { "model": "crystal_cluster" },
-		"facing=down": { "model": "crystal_cluster", "x": 180 },
-		"facing=east": { "model": "crystal_cluster", "x": 90, "y": 90 },
-		"facing=west": { "model": "crystal_cluster", "x": 90, "y": 270 },
-		"facing=south": { "model": "crystal_cluster", "x": 90, "y": 180 },
-		"facing=north": { "model": "crystal_cluster", "x": 90 }
+		"facing=up": { "model": "witchcraft:block/crystal_cluster" },
+		"facing=down": { "model": "witchcraft:block/crystal_cluster", "x": 180 },
+		"facing=east": { "model": "witchcraft:block/crystal_cluster", "x": 90, "y": 90 },
+		"facing=west": { "model": "witchcraft:block/crystal_cluster", "x": 90, "y": 270 },
+		"facing=south": { "model": "witchcraft:block/crystal_cluster", "x": 90, "y": 180 },
+		"facing=north": { "model": "witchcraft:block/crystal_cluster", "x": 90 }
 	}
 }
