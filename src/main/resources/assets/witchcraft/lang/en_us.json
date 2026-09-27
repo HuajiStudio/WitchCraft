@@ -1,6 +1,4 @@
 {
-  "attribute.name.generic.magicCost": "Magic Cost",
-
   "block.witchcraft.crystal_ore": "Crystal Ore",
   "block.witchcraft.crystal_block": "Crystal Block",
   "block.witchcraft.magic_crystal_block": "Magic Crystal Block",
@@ -27,5 +25,8 @@
   "enchantment.witchcraft.explosion": "Explosion",
   "enchantment.witchcraft.stable_lightball": "Stable Lightball",
 
-  "text.wand.recharge_needed": "Magic point was exhausted, please recharge ASAP!"
+  "text.wand.recharge_needed": "Magic point was exhausted, please recharge ASAP!",
+
+  "tooltip.witchcraft.magic_cost": "Magic cost: %s",
+  "hud.witchcraft.magic": "Magic: %s / %s"
 }

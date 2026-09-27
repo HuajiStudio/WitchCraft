@@ -1,13 +1,14 @@
 package huajistudio.witchcraft.client;
 
 import huajistudio.witchcraft.WitchCraft;
-import huajistudio.witchcraft.client.render.entity.RenderLightBall;
-import huajistudio.witchcraft.entity.EntityLoader;
+import huajistudio.witchcraft.client.renderer.LightBallRenderer;
+import huajistudio.witchcraft.registry.WCEntityTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 @Mod(value = WitchCraft.MODID, dist = Dist.CLIENT)
 public class WitchCraftClient {
@@ -17,10 +18,10 @@ public class WitchCraftClient {
 	}
 
 	private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(EntityLoader.LIGHT_BALL.get(), RenderLightBall::new);
+		event.registerEntityRenderer(WCEntityTypes.LIGHT_BALL.get(), LightBallRenderer::new);
 	}
 
 	private static void registerGuiLayers(RegisterGuiLayersEvent event) {
-		event.registerAboveAll(WitchCraft.id("magic_stats"), ClientRenderFactory::renderMagicStats);
+		event.registerAbove(VanillaGuiLayers.HOTBAR, WitchCraft.id("magic_stats"), new MagicHudLayer());
 	}
 }

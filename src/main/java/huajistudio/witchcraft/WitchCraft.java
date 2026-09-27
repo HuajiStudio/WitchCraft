@@ -1,11 +1,10 @@
 package huajistudio.witchcraft;
 
-import huajistudio.witchcraft.attachment.AttachmentLoader;
-import huajistudio.witchcraft.block.BlockLoader;
-import huajistudio.witchcraft.creativetab.CreativeTabsLoader;
-import huajistudio.witchcraft.entity.EntityLoader;
-import huajistudio.witchcraft.item.ItemLoader;
-import huajistudio.witchcraft.network.MagicStatsPayload;
+import huajistudio.witchcraft.registry.WCAttachmentTypes;
+import huajistudio.witchcraft.registry.WCBlocks;
+import huajistudio.witchcraft.registry.WCCreativeTabs;
+import huajistudio.witchcraft.registry.WCEntityTypes;
+import huajistudio.witchcraft.registry.WCItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -13,15 +12,13 @@ import net.neoforged.fml.common.Mod;
 @Mod(WitchCraft.MODID)
 public class WitchCraft {
 	public static final String MODID = "witchcraft";
-	public static final String NAME  = "WitchCraft";
 
 	public WitchCraft(IEventBus modEventBus) {
-		BlockLoader.BLOCKS.register(modEventBus);
-		ItemLoader.ITEMS.register(modEventBus);
-		EntityLoader.ENTITY_TYPES.register(modEventBus);
-		CreativeTabsLoader.CREATIVE_MODE_TABS.register(modEventBus);
-		AttachmentLoader.ATTACHMENT_TYPES.register(modEventBus);
-		modEventBus.addListener(MagicStatsPayload::register);
+		WCBlocks.BLOCKS.register(modEventBus);
+		WCItems.ITEMS.register(modEventBus);
+		WCEntityTypes.ENTITY_TYPES.register(modEventBus);
+		WCCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+		WCAttachmentTypes.ATTACHMENT_TYPES.register(modEventBus);
 	}
 
 	public static ResourceLocation id(String path) {

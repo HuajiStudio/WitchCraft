@@ -8,5 +8,8 @@
 
   "itemGroup.witchCraft": "巫術",
 
-  "text.wand.recharge_needed": "魔法值已耗盡，請及時充能！"
+  "text.wand.recharge_needed": "魔法值已耗盡，請及時充能！",
+
+  "tooltip.witchcraft.magic_cost": "魔法消耗：%s",
+  "hud.witchcraft.magic": "魔法值：%s / %s"
 }
