@@ -2,6 +2,7 @@ package huajistudio.witchcraft.gametest;
 
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.LightBallEntity;
+import huajistudio.witchcraft.magic.MagicElement;
 import huajistudio.witchcraft.magic.MagicStats;
 import huajistudio.witchcraft.registry.WCAttachmentTypes;
 import huajistudio.witchcraft.registry.WCEntityTypes;
@@ -48,6 +49,19 @@ public class WitchCraftGameTests {
 		wand.releaseUsing(helper.getLevel(), player, 72000 - 20);
 		helper.assertValueEqual(MagicStats.get(player).amount(), 0.0, "magic after shooting in creative mode");
 		helper.assertEntityPresent(WCEntityTypes.LIGHT_BALL.get());
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void elementWandShootsBallOfItsElement(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		player.moveTo(helper.absoluteVec(new Vec3(1.5, 1, 1.5)));
+		ItemStack wand = new ItemStack(WCItems.FLAME_WAND.get());
+
+		wand.releaseUsing(helper.getLevel(), player, 72000 - 20);
+		LightBallEntity ball = helper.findOneEntity(WCEntityTypes.LIGHT_BALL.get());
+		helper.assertValueEqual(ball.getElement(), MagicElement.FLAME, "element of the ball");
+		helper.assertValueEqual(ball.getEffect(), LightBallEntity.Effect.NONE, "effect of the ball");
 		helper.succeed();
 	}
 

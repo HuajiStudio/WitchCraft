@@ -62,14 +62,18 @@ public abstract class WandItem extends MagicToolItem {
 		}
 		AbstractHurtingProjectile bullet = newBullet(level, entity, stack);
 		bullet.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F,
-				0.5F + getVelocity(charge) + WCEnchantments.getLevel(level, Enchantments.POWER, stack),
+				0.5F + getChargeProgress(charge) + WCEnchantments.getLevel(level, Enchantments.POWER, stack),
 				0.0F);
 
 		stack.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
 		level.addFreshEntity(bullet);
 	}
 
-	private static float getVelocity(int charge) {
+	/**
+	 * @param charge how many ticks the wand has been charged
+	 * @return how far the charging has gone, from 0 to 1 after a second, like a bow
+	 */
+	public static float getChargeProgress(float charge) {
 		float f = charge / 20.0F;
 		f = f * (f + 2.0F) / 3.0F;
 		return Math.min(f, 1.0F);
@@ -77,7 +81,8 @@ public abstract class WandItem extends MagicToolItem {
 
 	@Override
 	public UseAnim getUseAnimation(ItemStack stack) {
-		return UseAnim.BOW;
+		// Not BOW, which raises both arms; the pose is set by WandClientExtensions instead.
+		return UseAnim.NONE;
 	}
 
 	@Override

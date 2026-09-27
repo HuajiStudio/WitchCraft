@@ -13,6 +13,21 @@
   "item.witchcraft.light_crystal": "光之水晶",
   "item.witchcraft.shadow_crystal": "影之水晶",
 
+  "item.witchcraft.wooden_wand": "木法杖",
+  "item.witchcraft.stone_wand": "石法杖",
+  "item.witchcraft.iron_wand": "铁法杖",
+  "item.witchcraft.golden_wand": "金法杖",
+  "item.witchcraft.diamond_wand": "钻石法杖",
+  "item.witchcraft.redstone_wand": "红石法杖",
+
+  "item.witchcraft.metal_wand": "金之法杖",
+  "item.witchcraft.plant_wand": "木之法杖",
+  "item.witchcraft.water_wand": "水之法杖",
+  "item.witchcraft.flame_wand": "火之法杖",
+  "item.witchcraft.soil_wand": "土之法杖",
+  "item.witchcraft.light_wand": "光之法杖",
+  "item.witchcraft.shadow_wand": "影之法杖",
+
   "itemGroup.witchCraft": "巫术",
 
   "text.wand.recharge_needed": "魔法值已耗尽，请及时充能！",

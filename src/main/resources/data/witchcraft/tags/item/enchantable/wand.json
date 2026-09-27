@@ -7,6 +7,11 @@
     "witchcraft:diamond_wand",
     "witchcraft:redstone_wand",
     "witchcraft:metal_wand",
-    "witchcraft:light_wand"
+    "witchcraft:plant_wand",
+    "witchcraft:water_wand",
+    "witchcraft:flame_wand",
+    "witchcraft:soil_wand",
+    "witchcraft:light_wand",
+    "witchcraft:shadow_wand"
   ]
 }

@@ -49,6 +49,9 @@ description='''
 Add witchcraft into your Minecraft!
 '''
 
+# New constants of vanilla enums, such as the arm pose of using a wand
+enumExtensions="META-INF/enumextensions.json"
+
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
 #[[mixins]]
 #config="${mod_id}.mixins.json"

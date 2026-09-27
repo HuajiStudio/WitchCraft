@@ -21,7 +21,12 @@
   "item.witchcraft.redstone_wand": "Redstone Wand",
 
   "item.witchcraft.metal_wand": "Wand of Metal",
+  "item.witchcraft.plant_wand": "Wand of Plants",
+  "item.witchcraft.water_wand": "Wand of Water",
+  "item.witchcraft.flame_wand": "Wand of Flame",
+  "item.witchcraft.soil_wand": "Wand of Soil",
   "item.witchcraft.light_wand": "Wand of Light",
+  "item.witchcraft.shadow_wand": "Wand of Shadow",
 
   "entity.witchcraft.light_ball": "Light Ball",
   "death.attack.lightBall": "%1$s was struck by a light ball",

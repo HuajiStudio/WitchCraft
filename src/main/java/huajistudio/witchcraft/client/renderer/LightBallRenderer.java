@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import huajistudio.witchcraft.WitchCraft;
 import huajistudio.witchcraft.entity.LightBallEntity;
+import huajistudio.witchcraft.magic.MagicElement;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -12,12 +13,20 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
- * Renders the light ball as a fully lit sprite that always faces the camera.
+ * Renders the light ball as a fully lit sprite that always faces the camera. Balls with an element have its color and symbol.
  */
 public class LightBallRenderer extends EntityRenderer<LightBallEntity> {
 	private static final ResourceLocation LIGHTBALL_TEXTURE = WitchCraft.id("textures/entity/lightball.png");
-	private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(LIGHTBALL_TEXTURE);
+	private static final Map<MagicElement, ResourceLocation> ELEMENT_TEXTURES = new EnumMap<>(MagicElement.class);
+
+	static {
+		for (MagicElement element : MagicElement.values())
+			ELEMENT_TEXTURES.put(element, WitchCraft.id("textures/entity/lightball_" + element.getSerializedName() + ".png"));
+	}
 
 	public LightBallRenderer(EntityRendererProvider.Context context) {
 		super(context);
@@ -34,7 +43,7 @@ public class LightBallRenderer extends EntityRenderer<LightBallEntity> {
 		poseStack.scale(0.3125F, 0.3125F, 0.3125F);
 		poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
 		PoseStack.Pose pose = poseStack.last();
-		VertexConsumer consumer = buffer.getBuffer(RENDER_TYPE);
+		VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
 		vertex(consumer, pose, packedLight, -0.5F, -0.25F, 0.0F, 1.0F);
 		vertex(consumer, pose, packedLight, 0.5F, -0.25F, 1.0F, 1.0F);
 		vertex(consumer, pose, packedLight, 0.5F, 0.75F, 1.0F, 0.0F);
@@ -54,6 +63,7 @@ public class LightBallRenderer extends EntityRenderer<LightBallEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(LightBallEntity entity) {
-		return LIGHTBALL_TEXTURE;
+		MagicElement element = entity.getElement();
+		return element == null ? LIGHTBALL_TEXTURE : ELEMENT_TEXTURES.get(element);
 	}
 }

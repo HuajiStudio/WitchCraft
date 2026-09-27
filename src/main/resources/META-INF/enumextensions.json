@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "WITCHCRAFT_WAND",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "huajistudio/witchcraft/client/WandClientExtensions",
+        "field": "ARM_POSE"
+      }
+    }
+  ]
+}

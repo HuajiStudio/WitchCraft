@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "witchcraft",
+  "pattern": [
+    "#X#",
+    " W ",
+    " W "
+  ],
+  "key": {
+    "#": {
+      "item": "witchcraft:magic_crystal"
+    },
+    "X": {
+      "item": "witchcraft:soil_crystal"
+    },
+    "W": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "result": {
+    "id": "witchcraft:soil_wand",
+    "count": 1
+  }
+}

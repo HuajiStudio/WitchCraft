@@ -1,10 +1,14 @@
 package huajistudio.witchcraft.entity;
 
+import huajistudio.witchcraft.magic.MagicElement;
 import huajistudio.witchcraft.registry.WCDamageTypes;
 import huajistudio.witchcraft.registry.WCEntityTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,11 +22,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Could be thrown with the magic wand. What happens when it hits something depends on its {@link Effect}.
+ * Balls shot by an element wand have the element of the wand, which only changes how they look.
  */
 public class LightBallEntity extends AbstractHurtingProjectile {
+	/** 0 for a plain ball, otherwise the ordinal of the {@link MagicElement} plus 1. */
+	private static final EntityDataAccessor<Byte> DATA_ELEMENT = SynchedEntityData.defineId(LightBallEntity.class, EntityDataSerializers.BYTE);
+
 	private Effect effect = Effect.DAMAGE;
 	private int explosionStrength;
 	private int knockbackStrength;
@@ -41,6 +50,12 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 	}
 
 	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_ELEMENT, (byte) 0);
+	}
+
+	@Override
 	protected void onHit(HitResult result) {
 		if (level().isClientSide)
 			return;
@@ -48,6 +63,7 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 			case DAMAGE -> damage(result);
 			case LIGHTNING -> strikeLightning(result);
 			case HARMING_CLOUD -> spawnHarmingCloud();
+			case NONE -> {}
 		}
 		discard();
 	}
@@ -100,6 +116,9 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
 		compound.putString("effect", effect.getSerializedName());
+		MagicElement element = getElement();
+		if (element != null)
+			compound.putString("element", element.getSerializedName());
 		compound.putInt("explosionStrength", explosionStrength);
 		compound.putInt("knockbackStrength", knockbackStrength);
 		compound.putInt("life", life);
@@ -109,6 +128,7 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		effect = Effect.CODEC.byName(compound.getString("effect"), Effect.DAMAGE);
+		setElement(MagicElement.CODEC.byName(compound.getString("element")));
 		if (compound.contains("explosionStrength"))
 			explosionStrength = compound.getInt("explosionStrength");
 		if (compound.contains("knockbackStrength"))
@@ -149,6 +169,16 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 		return effect;
 	}
 
+	@Nullable
+	public MagicElement getElement() {
+		int id = entityData.get(DATA_ELEMENT);
+		return id == 0 ? null : MagicElement.values()[id - 1];
+	}
+
+	public void setElement(@Nullable MagicElement element) {
+		entityData.set(DATA_ELEMENT, (byte) (element == null ? 0 : element.ordinal() + 1));
+	}
+
 	public void setKnockbackStrength(int knockbackStrength) {
 		this.knockbackStrength = knockbackStrength;
 	}
@@ -167,7 +197,9 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 		/** Summons a lightning bolt where it hits. */
 		LIGHTNING("lightning"),
 		/** Leaves a large cloud of instant damage. */
-		HARMING_CLOUD("harming_cloud");
+		HARMING_CLOUD("harming_cloud"),
+		/** Does nothing, not even hurting what it hits. For the element wands whose balls are not designed yet. */
+		NONE("none");
 
 		public static final StringRepresentable.EnumCodec<Effect> CODEC = StringRepresentable.fromEnum(Effect::values);
 
