@@ -5,6 +5,13 @@
 
   "item.witchcraft.crystal": "水晶",
   "item.witchcraft.magic_crystal": "魔法水晶",
+  "item.witchcraft.metal_crystal": "金之水晶",
+  "item.witchcraft.plant_crystal": "木之水晶",
+  "item.witchcraft.water_crystal": "水之水晶",
+  "item.witchcraft.flame_crystal": "火之水晶",
+  "item.witchcraft.soil_crystal": "土之水晶",
+  "item.witchcraft.light_crystal": "光之水晶",
+  "item.witchcraft.shadow_crystal": "影之水晶",
 
   "itemGroup.witchCraft": "巫术",
 

@@ -5,6 +5,13 @@
 
   "item.witchcraft.crystal": "Crystal",
   "item.witchcraft.magic_crystal": "Magic Crystal",
+  "item.witchcraft.metal_crystal": "Metal Crystal",
+  "item.witchcraft.plant_crystal": "Plant Crystal",
+  "item.witchcraft.water_crystal": "Water Crystal",
+  "item.witchcraft.flame_crystal": "Flame Crystal",
+  "item.witchcraft.soil_crystal": "Soil Crystal",
+  "item.witchcraft.light_crystal": "Light Crystal",
+  "item.witchcraft.shadow_crystal": "Shadow Crystal",
 
   "item.witchcraft.iron_wand": "Iron Wand",
   "item.witchcraft.wooden_wand": "Wooden Wand",
