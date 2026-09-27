@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
@@ -33,6 +34,20 @@ public class WitchCraftGameTests {
 		helper.assertValueEqual(MagicStats.get(player).amount(), 1.0, "magic after two shots");
 		wand.releaseUsing(helper.getLevel(), player, 72000 - 20);
 		helper.assertValueEqual(MagicStats.get(player).amount(), 1.0, "magic when it is not enough to shoot");
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void creativeHasInfiniteMagic(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.CREATIVE);
+		player.getAbilities().instabuild = true;
+		player.moveTo(helper.absoluteVec(new Vec3(1.5, 1, 1.5)));
+		ItemStack wand = new ItemStack(WCItems.LIGHT_WAND.get());
+		player.setData(WCAttachmentTypes.MAGIC_STATS, new MagicStats(20, 0));
+
+		wand.releaseUsing(helper.getLevel(), player, 72000 - 20);
+		helper.assertValueEqual(MagicStats.get(player).amount(), 0.0, "magic after shooting in creative mode");
+		helper.assertEntityPresent(WCEntityTypes.LIGHT_BALL.get());
 		helper.succeed();
 	}
 

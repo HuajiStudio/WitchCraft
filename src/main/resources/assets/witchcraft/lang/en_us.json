@@ -27,6 +27,5 @@
 
   "text.wand.recharge_needed": "Magic point was exhausted, please recharge ASAP!",
 
-  "tooltip.witchcraft.magic_cost": "Magic cost: %s",
-  "hud.witchcraft.magic": "Magic: %s / %s"
+  "tooltip.witchcraft.magic_cost": "Magic cost: %s"
 }

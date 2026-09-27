@@ -10,6 +10,5 @@
 
   "text.wand.recharge_needed": "魔法值已耗尽，请及时充能！",
 
-  "tooltip.witchcraft.magic_cost": "魔法消耗：%s",
-  "hud.witchcraft.magic": "魔法值：%s / %s"
+  "tooltip.witchcraft.magic_cost": "魔法消耗：%s"
 }

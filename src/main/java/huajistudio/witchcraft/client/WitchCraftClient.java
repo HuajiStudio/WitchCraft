@@ -22,6 +22,7 @@ public class WitchCraftClient {
 	}
 
 	private static void registerGuiLayers(RegisterGuiLayersEvent event) {
-		event.registerAbove(VanillaGuiLayers.HOTBAR, WitchCraft.id("magic_stats"), new MagicHudLayer());
+		// Right after the health, armor and hunger bars, so that it sits on top of the hunger bar.
+		event.registerBelow(VanillaGuiLayers.VEHICLE_HEALTH, WitchCraft.id("magic_stats"), new MagicHudLayer());
 	}
 }
