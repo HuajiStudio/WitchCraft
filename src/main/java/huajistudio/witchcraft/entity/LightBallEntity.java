@@ -87,7 +87,8 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 
 	@Override
 	protected ParticleOptions getTrailParticle() {
-		return ParticleTypes.EFFECT;
+		// Spawned in tick() instead, since runes need an offset to fly from.
+		return null;
 	}
 
 	@Override
@@ -129,8 +130,19 @@ public class LightBallEntity extends AbstractHurtingProjectile {
 	@Override
 	public void tick() {
 		super.tick();
+		if (level().isClientSide)
+			spawnRunes();
 		if (tickCount > life)
 			discard();
+	}
+
+	/**
+	 * Leaves a trail of enchanting table runes, each flying into the path of the ball from somewhere around it.
+	 */
+	private void spawnRunes() {
+		for (int i = 0; i < 2; i++)
+			level().addParticle(ParticleTypes.ENCHANT, getX(), getY(0.5), getZ(),
+					random.nextDouble() - 0.5, random.nextDouble() - 0.5, random.nextDouble() - 0.5);
 	}
 
 	public Effect getEffect() {
